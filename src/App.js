@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setRecipes } from "./store/recipes/recipes.actions";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Receipts from "./component/receipt/receipt.component";
+
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchDate = async () => {
+      try {
+        const response = await fetch(
+          "https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/35?lang=ru",
+          {
+            headers: {
+              Authorization:
+                "Bearer 205|nfZW3C1IuS9d6LH7XRkMcmM7RAhK5VF1k0KPOJMT",
+            },
+          }
+        );
+
+        const jsonData = await response.json();
+        dispatch(setRecipes(jsonData.data));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDate();
+  }, []);
+
+  return <Receipts />;
+};
 
 export default App;

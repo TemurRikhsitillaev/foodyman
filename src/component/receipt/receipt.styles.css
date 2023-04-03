@@ -1,0 +1,176 @@
+.receipt-container {
+  width: 100%;
+  height: max-content;
+  font-size: 16px;
+  background: lightgrey;
+  color: #0d1636;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.receipt-functions {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #001d8648;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.function-button {
+  width: max-content;
+  padding: 10px 12px;
+  border: 1px solid #001d8648;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.receipt-body {
+  width: 100%;
+  height: max-content;
+  background: #ffffff;
+  border: 1px solid #001d8648;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.current-list-button-container {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.current-list-button {
+  width: max-content;
+  height: max-content;
+  padding: 10px 25px;
+  font-size: 1em;
+  border: 1px solid #001d8648;
+  color: #0d1636;
+  background: #ffffff;
+  border-radius: 5px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.current-list-button-active {
+  opacity: 1;
+}
+
+table {
+  width: 100%;
+  height: max-content;
+}
+
+thead {
+  width: 100%;
+  height: max-content;
+}
+
+tr {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  /* display: flex;
+  justify-content: space-between;
+
+  align-items: center; */
+  border-bottom: 1px solid #001d8648;
+  /* background: #99afff; */
+}
+
+td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.header {
+  height: 100px;
+}
+
+img {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.table-function-button {
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #001d8648;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.function-image {
+  width: 22px;
+  height: 22px;
+}
+
+.checkbox {
+  width: 40px;
+}
+
+.input-checkbox {
+  width: 15px;
+  height: 15px;
+}
+
+.id {
+  width: 50px;
+}
+
+.title {
+  width: 200px;
+}
+
+.shop {
+  width: 200px;
+  text-align: left;
+}
+
+.image-container {
+  width: 200px;
+}
+
+.recipe-category {
+  width: 200px;
+}
+.discount {
+  width: 200px;
+}
+
+.table-functions {
+  width: max-content;
+}
