@@ -1,13 +1,62 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
+import { deleteRequest } from "../../server/requests";
 import "./receipt.styles.css";
 import { ReactComponent as EditIcon } from "../../assets/edit-icon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete-icon.svg";
+import deleteIconPath from "../../assets/delete-icon.svg";
+import editIconPath from "../../assets/edit-icon.svg";
+
+const handleDelete = (event) => {
+  console.log("delete: ", event.target.id);
+  const id = Number(event.target.id);
+  deleteRequest(id);
+  // const url = `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/delete?ids[0]=${id}`;
+  // fetch(url, {
+  //   headers: {
+  //     Authorization: "Bearer 205|nfZW3C1IuS9d6LH7XRkMcmM7RAhK5VF1k0KPOJMT",
+  //   },
+  //   method: "DELETE",
+  // })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw Error("Could not delete the recipe, smth went wrong");
+  //     }
+
+  //     console.log("Assume that recipe is deleted :)");
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error:", error);
+  //   });
+};
 
 const Receipts = () => {
   const { recipes } = useSelector(selectRecipes);
-  console.log(recipes);
+  const dataArray = [];
+  recipes.map((recipe, index) => {
+    const {
+      id,
+      img: productImage,
+      discount_price: discountPrice,
+      shop,
+      category,
+    } = recipe; // img is image of product
+    const { keywords: title } = category;
+    const { logo_img: shopImage, translation } = shop; // shop image and in the translation object we have title
+    const { title: shopTitle } = translation; // shop title
+    dataArray.push({
+      id,
+      index,
+      title,
+      productImage,
+      discountPrice,
+      shopImage,
+      shopTitle,
+    });
+  });
+  dataArray.reverse();
+  console.log(dataArray);
 
   return (
     <div className="receipt-container">
@@ -52,40 +101,71 @@ const Receipts = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="checkbox">
-                <input
-                  type="checkbox"
-                  className="input-checkbox"
-                />
-              </td>
-              <td className="id">1</td>
-              <td className="title">Pizza</td>
-              <td className="shop">
-                <img
-                  className="shop-image"
-                  src="https://foodyman.s3.amazonaws.com/public/images/shops/logo/107-1676473671.jpeg"
-                  alt="restorant/shop image"
-                />
-                Apexpizza
-              </td>
-              <td className="image-container">
-                <img
-                  src="https://foodyman.s3.amazonaws.com/public/images/categories/107-1676355594.webp"
-                  alt="recipe image"
-                />
-              </td>
-              <td className="recipe-category">Foodyman recipe</td>
-              <td className="discount">10%</td>
-              <td className="table-functions">
-                <button className="table-function-button">
-                  <EditIcon className="function-image" />
-                </button>
-                <button className="table-function-button">
-                  <DeleteIcon className="function-image" />
-                </button>
-              </td>
-            </tr>
+            {dataArray.map((data) => {
+              const {
+                id,
+                index,
+                title,
+                productImage,
+                discountPrice,
+                shopImage,
+                shopTitle,
+              } = data;
+
+              return (
+                <tr key={id}>
+                  <td className="checkbox">
+                    <input
+                      type="checkbox"
+                      className="input-checkbox"
+                    />
+                  </td>
+                  <td className="id">{index + 1}</td>
+                  <td className="title">{title}</td>
+                  <td className="shop">
+                    <img
+                      className="shop-image"
+                      src={shopImage}
+                      alt="restorant/shop image"
+                    />
+                    {shopTitle}
+                  </td>
+                  <td className="image-container">
+                    <img
+                      src={productImage}
+                      alt="recipe image"
+                    />
+                  </td>
+                  <td className="recipe-category">Foodyman recipe</td>
+                  <td className="discount">{discountPrice}%</td>
+                  <td className="table-functions">
+                    <button
+                      className="table-function-button edit"
+                      id={id}
+                    >
+                      <img
+                        src={editIconPath}
+                        className="function-image"
+                        id={id}
+                      />
+                      {/* <EditIcon className="function-image" /> */}
+                    </button>
+                    <button
+                      className="table-function-button delete"
+                      onClick={handleDelete}
+                      id={id}
+                    >
+                      {/* <DeleteIcon className="function-image" /> */}
+                      <img
+                        src={deleteIconPath}
+                        className="function-image"
+                        id={id}
+                      />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

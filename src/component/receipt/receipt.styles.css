@@ -81,6 +81,7 @@ h2 {
 table {
   width: 100%;
   height: max-content;
+  overflow-x: scroll;
 }
 
 thead {
@@ -131,6 +132,16 @@ img {
   border: 1px solid #001d8648;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.edit:hover {
+  background: #0037ff;
+  color: #ffffff;
+}
+
+.delete:hover {
+  background: #ff0000;
+  color: #ffffff;
 }
 
 .function-image {
