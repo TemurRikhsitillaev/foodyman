@@ -1,34 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
-import { deleteRequest } from "../../server/requests";
+import { deleteRequest } from "../../server/requests/delete.request";
+import GetRequest from "../../server/requests/get.request";
 import "./receipt.styles.css";
-import { ReactComponent as EditIcon } from "../../assets/edit-icon.svg";
-import { ReactComponent as DeleteIcon } from "../../assets/delete-icon.svg";
 import deleteIconPath from "../../assets/delete-icon.svg";
 import editIconPath from "../../assets/edit-icon.svg";
 
 const handleDelete = (event) => {
   console.log("delete: ", event.target.id);
   const id = Number(event.target.id);
-  deleteRequest(id);
-  // const url = `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/delete?ids[0]=${id}`;
-  // fetch(url, {
-  //   headers: {
-  //     Authorization: "Bearer 205|nfZW3C1IuS9d6LH7XRkMcmM7RAhK5VF1k0KPOJMT",
-  //   },
-  //   method: "DELETE",
-  // })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw Error("Could not delete the recipe, smth went wrong");
-  //     }
 
-  //     console.log("Assume that recipe is deleted :)");
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error:", error);
-  //   });
+  deleteRequest(id);
 };
 
 const Receipts = () => {

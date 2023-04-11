@@ -51,6 +51,7 @@ h2 {
   border: 1px solid #001d8648;
   border-radius: 10px;
   padding: 20px;
+  overflow-x: scroll;
 }
 
 .current-list-button-container {
@@ -81,7 +82,7 @@ h2 {
 table {
   width: 100%;
   height: max-content;
-  overflow-x: scroll;
+  overflow: hidden;
 }
 
 thead {
