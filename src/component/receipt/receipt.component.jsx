@@ -1,8 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setCheckboxDelete } from "../../store/recipes/recipes.actions";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
 import { deleteRequest } from "../../server/requests/delete.request";
-import GetRequest from "../../server/requests/get.request";
+
+// // //
 import "./receipt.styles.css";
 import deleteIconPath from "../../assets/delete-icon.svg";
 import editIconPath from "../../assets/edit-icon.svg";
@@ -14,8 +16,28 @@ const handleDelete = (event) => {
   deleteRequest(id);
 };
 
+const selectedToDelete = [];
+
+const handleCheckbox = (event) => {
+  const id = Number(event.target.id);
+  // console.log(selectedToDelete.find((index) => index == id));
+
+  if (selectedToDelete.find((index) => index == id)) {
+    const index = selectedToDelete.indexOf(id);
+
+    selectedToDelete.splice(index, 1);
+  } else {
+    selectedToDelete.push(id);
+  }
+
+  console.log("checkbox", selectedToDelete);
+};
+
 const Receipts = () => {
-  const { recipes } = useSelector(selectRecipes);
+  const dispatch = useDispatch();
+  const { recipes, checkboxDelete } = useSelector(selectRecipes);
+
+  // console.log("checkboxDelete: ", checkboxDelete);
   const dataArray = [];
   recipes.map((recipe, index) => {
     const {
@@ -39,13 +61,25 @@ const Receipts = () => {
     });
   });
   dataArray.reverse();
-  console.log(dataArray);
+  // console.log(dataArray);
+
+  const handleDeleteSelected = () => {
+    console.log("delete selected: ", selectedToDelete);
+    selectedToDelete.map((id) => {
+      deleteRequest(id);
+    });
+  };
 
   return (
     <div className="receipt-container">
       <h1>Receipts</h1>
       <div className="receipt-functions">
-        <button className="function-button">Delete selected</button>
+        <button
+          className="function-button"
+          onClick={handleDeleteSelected}
+        >
+          Delete selected
+        </button>
         <button className="add-button function-button">Add recipe</button>
         <button className="function-button">Columns</button>
       </div>
@@ -101,6 +135,9 @@ const Receipts = () => {
                     <input
                       type="checkbox"
                       className="input-checkbox"
+                      onClick={handleCheckbox}
+                      id={id}
+                      // checked
                     />
                   </td>
                   <td className="id">{index + 1}</td>

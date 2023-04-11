@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setRecipes } from "./store/recipes/recipes.actions";
-import { getRequest } from "./server/requests/get.request";
 
 import Receipts from "./component/receipt/receipt.component";
 
 const App = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchDate = async () => {
       try {

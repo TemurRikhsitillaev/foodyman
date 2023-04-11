@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { useDispatch } from "react-redux";
 import { setRecipes } from "../../store/recipes/recipes.actions";
 
 const GetRequest = async (token) => {
