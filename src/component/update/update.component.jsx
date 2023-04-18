@@ -1,38 +1,100 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import "./update.styles.scss";
 
 const Update = () => {
   const location = useLocation();
+
+  const [currentFormField, setCurrentFormField] = useState(1);
+
+  const handleNextFormField = () => {
+    setCurrentFormField(currentFormField + 1);
+  };
+  const handlePrevFormField = () => {
+    setCurrentFormField(currentFormField - 1);
+  };
+
   const id = location.state.id;
   return (
     <div className="update">
       <div className="header">
         <div className="current-container">
-          <button className="current-button current-button-active">1</button>
+          <button
+            type="button"
+            onClick={() => setCurrentFormField(1)}
+            className={
+              currentFormField === 1
+                ? "current-button current-button-active"
+                : "current-button"
+            }
+          >
+            1
+          </button>
           <span>Recipe</span>
         </div>
         <div className="current-container">
-          <button className="current-button">2</button>
+          <button
+            type="button"
+            onClick={() => setCurrentFormField(2)}
+            className={
+              currentFormField === 2
+                ? "current-button current-button-active"
+                : "current-button"
+            }
+          >
+            2
+          </button>
           <span>Instructions</span>
         </div>
         <div className="current-container">
-          <button className="current-button">3</button>
+          <button
+            type="button"
+            onClick={() => setCurrentFormField(3)}
+            className={
+              currentFormField === 3
+                ? "current-button current-button-active"
+                : "current-button"
+            }
+          >
+            3
+          </button>
           <span>Ingredients</span>
         </div>
         <div className="current-container">
-          <button className="current-button">4</button>
+          <button
+            type="button"
+            onClick={() => setCurrentFormField(4)}
+            className={
+              currentFormField === 4
+                ? "current-button current-button-active"
+                : "current-button"
+            }
+          >
+            4
+          </button>
           <span>Stocks</span>
         </div>
         <div className="current-container">
-          <button className="current-button">5</button>
+          <button
+            type="button"
+            onClick={() => setCurrentFormField(5)}
+            className={
+              currentFormField === 5
+                ? "current-button current-button-active"
+                : "current-button"
+            }
+          >
+            5
+          </button>
           <span>Nutritions</span>
         </div>
       </div>
       <div className="edit-container">
         <form>
-          <div className="current-form">
+          <div
+            className={currentFormField == 1 ? "current-form" : "displayNone"}
+          >
             <div className="field-container">
               <label>Name</label>
               <input
@@ -110,7 +172,9 @@ const Update = () => {
               />
             </div>
           </div>
-          <div className="current-form">
+          <div
+            className={currentFormField == 2 ? "current-form" : "displayNone"}
+          >
             <div className="field-container">
               <label>Instructions</label>
               <input
@@ -121,7 +185,9 @@ const Update = () => {
             </div>
           </div>
 
-          <div className="current-form">
+          <div
+            className={currentFormField == 3 ? "current-form" : "displayNone"}
+          >
             <div className="field-container">
               <label>Ingredients</label>
               <input
@@ -132,7 +198,9 @@ const Update = () => {
             </div>
           </div>
 
-          <div className="current-form">
+          <div
+            className={currentFormField == 4 ? "current-form" : "displayNone"}
+          >
             <div className="field-container">
               <label>Stocks</label>
               <select name="stocks">
@@ -149,8 +217,10 @@ const Update = () => {
               />
             </div>
           </div>
-          <div className="current-form">
-            <div className="form-field">
+          <div
+            className={currentFormField == 5 ? "current-form" : "displayNone"}
+          >
+            <div className="field-container">
               <label>Name</label>
               <input
                 type="text"
@@ -158,7 +228,7 @@ const Update = () => {
                 name="nutritionsName"
               />
             </div>
-            <div className="form-field">
+            <div className="field-container">
               <label>Weight</label>
               <input
                 type="text"
@@ -166,7 +236,7 @@ const Update = () => {
                 name="nutritionsWeight"
               />
             </div>
-            <div className="form-field">
+            <div className="field-container">
               <label>Percentage</label>
               <input
                 type="text"
@@ -176,9 +246,26 @@ const Update = () => {
             </div>
           </div>
 
-          <button className="button prev">Prev</button>
-          <button className="button next">Next</button>
-          <button className="button submit">Submit</button>
+          <button
+            className={currentFormField > 1 ? "button prev" : "displayNone"}
+            type="button"
+            onClick={handlePrevFormField}
+          >
+            Prev
+          </button>
+          <button
+            className={currentFormField < 5 ? "button next" : "displayNone"}
+            type="button"
+            onClick={handleNextFormField}
+          >
+            Next
+          </button>
+          <button
+            className={currentFormField === 5 ? "button submit" : "displayNone"}
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </div>

@@ -36,6 +36,9 @@
       .current-button-active {
         background: #003aa7;
         color: #ffffff;
+        &:hover {
+          background-color: #003aa7;
+        }
       }
     }
   }
@@ -89,4 +92,8 @@
       }
     }
   }
+}
+
+.displayNone {
+  display: none;
 }
