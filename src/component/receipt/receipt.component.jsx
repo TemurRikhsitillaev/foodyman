@@ -1,72 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCheckboxDelete } from "../../store/recipes/recipes.actions";
+import { Link } from "react-router-dom";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
 import { deleteRequest } from "../../server/requests/delete.request";
+import Update from "../update/update.component";
 
 // // //
 import "./receipt.styles.css";
 import deleteIconPath from "../../assets/delete-icon.svg";
 import editIconPath from "../../assets/edit-icon.svg";
-
-const handleDelete = (event) => {
-  console.log("delete: ", event.target.id);
-  const id = Number(event.target.id);
-
-  deleteRequest(id);
-};
-
-const selectedToDelete = [];
-
-const handleCheckbox = (event) => {
-  const id = Number(event.target.id);
-  // console.log(selectedToDelete.find((index) => index == id));
-
-  if (selectedToDelete.find((index) => index == id)) {
-    const index = selectedToDelete.indexOf(id);
-
-    selectedToDelete.splice(index, 1);
-  } else {
-    selectedToDelete.push(id);
-  }
-
-  console.log("checkbox", selectedToDelete);
-};
+import { setRecipes } from "../../store/recipes/recipes.actions";
 
 const Receipts = () => {
   const dispatch = useDispatch();
-  const { recipes, checkboxDelete } = useSelector(selectRecipes);
+  const { recipes } = useSelector(selectRecipes);
+  const [selectAll, setSelectAll] = useState(false);
 
-  // console.log("checkboxDelete: ", checkboxDelete);
-  const dataArray = [];
-  recipes.map((recipe, index) => {
-    const {
-      id,
-      img: productImage,
-      discount_price: discountPrice,
-      shop,
-      category,
-    } = recipe; // img is image of product
-    const { keywords: title } = category;
-    const { logo_img: shopImage, translation } = shop; // shop image and in the translation object we have title
-    const { title: shopTitle } = translation; // shop title
-    dataArray.push({
-      id,
-      index,
-      title,
-      productImage,
-      discountPrice,
-      shopImage,
-      shopTitle,
-    });
-  });
-  dataArray.reverse();
-  // console.log(dataArray);
+  const handleDelete = (event) => {
+    const id = Number(event.target.id);
+
+    deleteRequest(id);
+  };
+
+  const handleSelectCheckbox = (event) => {
+    const id = Number(event.target.id);
+    const selected = event.target.checked;
+
+    dispatch(
+      setRecipes(
+        recipes.map((recipe) => {
+          if (recipe.id === id) {
+            recipe.selected = selected;
+          }
+          return recipe;
+        })
+      )
+    );
+
+    if (recipes.every((recipe) => recipe.selected == true)) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  };
+
+  const handleSelectAllCheckbox = (event) => {
+    const selected = event.target.checked;
+    setSelectAll(!selectAll);
+
+    dispatch(
+      setRecipes(
+        recipes.map((recipe) => {
+          recipe.selected = selected;
+
+          return recipe;
+        })
+      )
+    );
+  };
 
   const handleDeleteSelected = () => {
-    console.log("delete selected: ", selectedToDelete);
-    selectedToDelete.map((id) => {
-      deleteRequest(id);
+    recipes.map((recipe) => {
+      if (recipe.selected) {
+        deleteRequest(recipe.id);
+        console.log("deleted", recipe.id);
+      }
     });
   };
 
@@ -106,6 +104,8 @@ const Receipts = () => {
                 <input
                   type="checkbox"
                   className="input-checkbox"
+                  onChange={handleSelectAllCheckbox}
+                  checked={selectAll}
                 />
               </th>
               <th className="id">ID</th>
@@ -118,29 +118,30 @@ const Receipts = () => {
             </tr>
           </thead>
           <tbody>
-            {dataArray.map((data) => {
+            {recipes.map((data, key) => {
               const {
                 id,
-                index,
+                order,
                 title,
                 productImage,
                 discountPrice,
                 shopImage,
                 shopTitle,
+                selected,
               } = data;
 
               return (
-                <tr key={id}>
+                <tr key={key}>
                   <td className="checkbox">
                     <input
                       type="checkbox"
                       className="input-checkbox"
-                      onClick={handleCheckbox}
+                      onChange={handleSelectCheckbox}
                       id={id}
-                      // checked
+                      checked={selected}
                     />
                   </td>
-                  <td className="id">{index + 1}</td>
+                  <td className="id">{order + 1}</td>
                   <td className="title">{title}</td>
                   <td className="shop">
                     <img
@@ -159,23 +160,22 @@ const Receipts = () => {
                   <td className="recipe-category">Foodyman recipe</td>
                   <td className="discount">{discountPrice}%</td>
                   <td className="table-functions">
-                    <button
+                    <Link
+                      to={`/update/${id}`}
                       className="table-function-button edit"
-                      id={id}
+                      state={{ id: id }}
                     >
                       <img
                         src={editIconPath}
                         className="function-image"
                         id={id}
                       />
-                      {/* <EditIcon className="function-image" /> */}
-                    </button>
+                    </Link>
                     <button
                       className="table-function-button delete"
                       onClick={handleDelete}
                       id={id}
                     >
-                      {/* <DeleteIcon className="function-image" /> */}
                       <img
                         src={deleteIconPath}
                         className="function-image"
