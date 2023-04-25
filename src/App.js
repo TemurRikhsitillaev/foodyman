@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setRecipes } from "./store/recipes/recipes.actions";
+import { setRecipes, setFoods } from "./store/recipes/recipes.actions";
 
 import Receipts from "./component/receipt/receipt.component";
 import Update from "./component/update/update.component";
@@ -17,7 +17,7 @@ const App = () => {
           {
             headers: {
               Authorization:
-                "Bearer 205|nfZW3C1IuS9d6LH7XRkMcmM7RAhK5VF1k0KPOJMT",
+                "Bearer 14|uTEAoYjYUiHO9KEjA1lU0TOAFZB2z7z81VOeASx3",
             },
             method: "GET",
           }
@@ -33,7 +33,7 @@ const App = () => {
             shop,
             category,
           } = recipe; // img is image of product
-          const { keywords: title } = category;
+          const { title } = category.translation;
           const { logo_img: shopImage, translation } = shop; // shop image and in the translation object we have title
           const { title: shopTitle } = translation; // shop title
 
@@ -49,6 +49,8 @@ const App = () => {
           });
         });
         permanent.reverse();
+        console.log(jsonData.data);
+        dispatch(setFoods(jsonData));
         dispatch(setRecipes(permanent));
       } catch (error) {
         console.error("Error: ", error);
@@ -69,6 +71,7 @@ const App = () => {
         element={<Update />}
       />
     </Routes>
+    // <Update />
   );
 };
 

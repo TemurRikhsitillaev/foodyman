@@ -79,11 +79,10 @@ const Receipts = () => {
           Delete selected
         </button>
         <button className="add-button function-button">Add recipe</button>
-        <button className="function-button">Columns</button>
       </div>
       <div className="receipt-body">
         <h2>Recipes</h2>
-        <div className="current-list-button-container">
+        {/* <div className="current-list-button-container">
           <button
             className="current-list-button current-list-button-active"
             type="button"
@@ -96,7 +95,7 @@ const Receipts = () => {
           >
             Deleted at
           </button>
-        </div>
+        </div> */}
         <table>
           <thead>
             <tr>
