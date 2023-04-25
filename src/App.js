@@ -30,19 +30,24 @@ const App = () => {
             id,
             img: productImage,
             discount_price: discountPrice,
+            discount_type: discountType,
             shop,
             category,
+            translation,
           } = recipe; // img is image of product
-          const { title } = category.translation;
-          const { logo_img: shopImage, translation } = shop; // shop image and in the translation object we have title
-          const { title: shopTitle } = translation; // shop title
+          const { title } = translation;
+          const categoryTitle = category.translation.title;
+          const { logo_img: shopImage, translation: shop_translation } = shop; // shop image and in the translation object we have title
+          const { title: shopTitle } = shop_translation; // shop title
 
           permanent.push({
             id,
             order,
             title,
+            categoryTitle,
             productImage,
             discountPrice,
+            discountType,
             shopImage,
             shopTitle,
             selected: false,

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
 import { deleteRequest } from "../../server/requests/delete.request";
-import Update from "../update/update.component";
 
 // // //
 import "./receipt.styles.css";
@@ -124,10 +123,14 @@ const Receipts = () => {
                 title,
                 productImage,
                 discountPrice,
+                discountType,
+                categoryTitle,
                 shopImage,
                 shopTitle,
                 selected,
               } = data;
+
+              const discountSign = discountType === "fix" ? "$" : "%";
 
               return (
                 <tr key={key}>
@@ -156,8 +159,10 @@ const Receipts = () => {
                       alt="recipe image"
                     />
                   </td>
-                  <td className="recipe-category">Foodyman recipe</td>
-                  <td className="discount">{discountPrice}%</td>
+                  <td className="recipe-category">{categoryTitle}</td>
+                  <td className="discount">
+                    {discountPrice} {discountSign}
+                  </td>
                   <td className="table-functions">
                     <Link
                       to={`/update/${id}`}

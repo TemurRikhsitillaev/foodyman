@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
 import { setFoods } from "../../store/recipes/recipes.actions";
+import { updateResource } from "../../server/requests/put.request";
 
 import "./update.styles.scss";
 
@@ -28,115 +29,15 @@ const defaultFormFields = {
   nutrition_name: "",
   nutrition_weight: "",
   nutrition_percentage: "",
+
+  updated_at: "",
 };
 
-// const defaultFormFields = {
-//   id: null,
-//   shop_id: null,
-//   discount_type: "",
-//   discount_price: 0,
-//   category_id: 0,
-//   active_time: 0,
-//   total_time: 0,
-//   calories: 0,
-//   servings: 0,
-//   created_at: 0,
-//   updated_at: 0,
-//   shop: {
-//     id: 0,
-//     uuid: "0",
-//     open: undefined,
-//     visibility: null,
-//     logo_img: "",
-//     products_count: 0,
-//     translation: {
-//       id: 0,
-//       locale: "en",
-//       title: "",
-//     },
-//   },
-//   category: {
-//     id: 5,
-//     uuid: "",
-//     keywords: "",
-//     img: "",
-//     active: true,
-//     created_at: "",
-//     updated_at: "",
-//     translation: {
-//       id: 0,
-//       locale: "en",
-//       title: "olala",
-//     },
-//   },
-//   translation: {
-//     id: 0,
-//     locale: "en",
-//     title: "0",
-//   },
-//   translations: [
-//     {
-//       id: 2,
-//       locale: "en",
-//       title: "0",
-//       description: "0",
-//     },
-//   ],
-//   ingredient: {
-//     id: 0,
-//     locale: "en",
-//     title: "",
-//   },
-//   ingredients: [
-//     {
-//       id: 0,
-//       locale: "en",
-//       title: "",
-//     },
-//   ],
-//   instruction: {
-//     id: 0,
-//     locale: "en",
-//     title: "",
-//   },
-//   instructions: [
-//     {
-//       id: 0,
-//       locale: "en",
-//       title: "",
-//     },
-//   ],
-//   nutritions: [
-//     {
-//       id: 0,
-//       weight: 0,
-//       percentage: 0,
-//       translation: {
-//         id: 0,
-//         locale: "en",
-//         title: "",
-//       },
-//       translations: [
-//         {
-//           id: 0,
-//           locale: "en",
-//           title: "",
-//         },
-//       ],
-//       locales: ["en"],
-//     },
-//   ],
-//   locales: ["en"],
-//   ingredient_locales: ["en"],
-//   instruction_locales: ["en"],
-// };
-
 const Update = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
   const { foods } = useSelector(selectRecipes);
-  console.log(foods);
 
-  const id = location.state.id;
+  const id = Number(useParams().id);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
 
@@ -154,7 +55,40 @@ const Update = () => {
 
     setFormFields({ ...formFields, [name]: value });
   };
-  console.log(formFields);
+
+  const submitHandler = () => {
+    const updated_at = new Date().toISOString().slice(0, 10);
+
+    foods.data[id - 1].category.translation.title = formFields.category_name;
+    foods.data[id - 1].category.updated_at = updated_at;
+    foods.data[id - 1].updated_at = updated_at;
+    foods.data[id - 1].category.img = formFields.img;
+    foods.data[id - 1].active_time = formFields.active_time;
+    foods.data[id - 1].total_time = formFields.total_time;
+    foods.data[id - 1].calories = formFields.calories;
+    foods.data[
+      id - 1
+    ].ingredients[0].title = `<p>${formFields.ingredients}</p>`;
+    foods.data[id - 1].instruction.title = `<p>${formFields.instruction}</p>`;
+    foods.data[id - 1].shop.translation.title = formFields.shop_name;
+    foods.data[id - 1].nutritions[0].translation.title =
+      formFields.nutrition_name;
+    foods.data[id - 1].nutritions[0].translations.title =
+      formFields.nutrition_name;
+    foods.data[id - 1].nutritions[0].weight = formFields.nutrition_weight;
+    foods.data[id - 1].nutritions[0].percentage =
+      formFields.nutrition_percentage;
+    foods.data[id - 1].discount_price = formFields.discount_price;
+    foods.data[id - 1].discount_type = formFields.discount_type;
+    foods.data[id - 1].translation.title = formFields.name;
+    foods.data[id - 1].translations[0].title = formFields.name;
+    foods.data[id - 1].translation.description = formFields.description;
+
+    dispatch(setFoods(foods));
+
+    console.log(foods);
+    updateResource(id, foods.data[id - 1]);
+  };
 
   return (
     <div className="update">
@@ -231,7 +165,7 @@ const Update = () => {
         </div>
       </div>
       <div className="edit-container">
-        <form>
+        <form onSubmit={submitHandler}>
           <div
             className={currentFormField == 1 ? "current-form" : "displayNone"}
           >
@@ -468,6 +402,12 @@ const Update = () => {
             type="submit"
           >
             Submit
+          </button>
+          <button
+            type="button"
+            onClick={submitHandler}
+          >
+            submit test
           </button>
         </form>
       </div>
