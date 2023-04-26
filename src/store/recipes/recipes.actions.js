@@ -6,3 +6,6 @@ export const setRecipes = (recipesArray) =>
 
 export const setFoods = (foodsArray) =>
   createAction(RECIPES_ACTION_TYPES.SET_FOODS, foodsArray);
+
+export const setShow = (showArray) =>
+  createAction(RECIPES_ACTION_TYPES.SET_SHOW, showArray);

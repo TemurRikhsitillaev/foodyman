@@ -81,20 +81,7 @@ const Receipts = () => {
       </div>
       <div className="receipt-body">
         <h2>Recipes</h2>
-        {/* <div className="current-list-button-container">
-          <button
-            className="current-list-button current-list-button-active"
-            type="button"
-          >
-            Published
-          </button>
-          <button
-            className="current-list-button"
-            type="button"
-          >
-            Deleted at
-          </button>
-        </div> */}
+
         <table>
           <thead>
             <tr>

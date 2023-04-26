@@ -1,5 +1,5 @@
 export const updateResource = async (resourceId, updatedData) => {
-  console.log("updateResource", resourceId, JSON.stringify(updatedData));
+  // console.log("updateResource: ", resourceId, JSON.stringify(updatedData));
   fetch(
     `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/${resourceId}`,
     {
@@ -8,21 +8,19 @@ export const updateResource = async (resourceId, updatedData) => {
         Authorization: `Bearer 14|uTEAoYjYUiHO9KEjA1lU0TOAFZB2z7z81VOeASx3`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updateResource),
+      body: JSON.stringify(updatedData),
     }
   )
-    .then((response) => {
+    .then(async (response) => {
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Something went wrong");
       }
       return response.json();
     })
     .then((data) => {
       console.log(data);
-      // Handle data here
     })
     .catch((error) => {
-      console.error("Error updating resource:", error);
-      // Handle error here
+      console.error("Something went wrong:", error);
     });
 };

@@ -1,47 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { selectRecipes } from "../../store/recipes/recipes.selector";
-import { setFoods } from "../../store/recipes/recipes.actions";
 import { updateResource } from "../../server/requests/put.request";
+import { defaultFormFields } from "../../utils/default-values/update-values.default-values";
 
 import "./update.styles.scss";
 
-// https://foodyman.s3.amazonaws.com/public/images/shops/logo/101-1681881829.webp
-
-const defaultFormFields = {
-  name: "",
-  shop_name: "Kids Plate",
-  category_name: "Foodyman Recipe",
-  description: "",
-  calories: "",
-  active_time: "",
-  total_time: "",
-  discount_type: "fix",
-  discount_price: "",
-  img: "",
-  instruction: "",
-  ingredients: "",
-
-  stock_name: "tomato",
-  stock_quantity: "",
-
-  nutrition_name: "",
-  nutrition_weight: "",
-  nutrition_percentage: "",
-
-  updated_at: "",
-};
-
 const Update = () => {
-  const dispatch = useDispatch();
-  const { foods } = useSelector(selectRecipes);
-
   const id = Number(useParams().id);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [show, setShow] = useState([]);
 
   const [currentFormField, setCurrentFormField] = useState(1);
+
+  useEffect(() => {
+    const url = `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/${id}?lang=ru`;
+    const token = "14|uTEAoYjYUiHO9KEjA1lU0TOAFZB2z7z81VOeASx3";
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: "GET",
+        });
+
+        const jsonData = await response.json();
+        setShow(jsonData);
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const handleNextFormField = () => {
     setCurrentFormField(currentFormField + 1);
@@ -56,38 +49,54 @@ const Update = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const submitHandler = () => {
-    const updated_at = new Date().toISOString().slice(0, 10);
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const stock_id = show.data.stocks[0].id;
+    const { category_id, servings, shop_id } = show.data;
 
-    foods.data[id - 1].category.translation.title = formFields.category_name;
-    foods.data[id - 1].category.updated_at = updated_at;
-    foods.data[id - 1].updated_at = updated_at;
-    foods.data[id - 1].category.img = formFields.img;
-    foods.data[id - 1].active_time = formFields.active_time;
-    foods.data[id - 1].total_time = formFields.total_time;
-    foods.data[id - 1].calories = formFields.calories;
-    foods.data[
-      id - 1
-    ].ingredients[0].title = `<p>${formFields.ingredients}</p>`;
-    foods.data[id - 1].instruction.title = `<p>${formFields.instruction}</p>`;
-    foods.data[id - 1].shop.translation.title = formFields.shop_name;
-    foods.data[id - 1].nutritions[0].translation.title =
-      formFields.nutrition_name;
-    foods.data[id - 1].nutritions[0].translations.title =
-      formFields.nutrition_name;
-    foods.data[id - 1].nutritions[0].weight = formFields.nutrition_weight;
-    foods.data[id - 1].nutritions[0].percentage =
-      formFields.nutrition_percentage;
-    foods.data[id - 1].discount_price = formFields.discount_price;
-    foods.data[id - 1].discount_type = formFields.discount_type;
-    foods.data[id - 1].translation.title = formFields.name;
-    foods.data[id - 1].translations[0].title = formFields.name;
-    foods.data[id - 1].translation.description = formFields.description;
+    const updatedData = {
+      shop_id: shop_id,
+      category_id: category_id,
+      active_time: formFields.active_time,
+      total_time: formFields.total_time,
+      calories: formFields.calories,
+      servings: servings,
+      discount_type: formFields.discount_type,
+      discount_price: formFields.discount_price,
+      stocks: [
+        {
+          stock_id: stock_id,
+          min_quantity: formFields.stock_quantity,
+        },
+      ],
+      title: {
+        ru: formFields.name,
+        en: formFields.name,
+      },
+      description: {
+        ru: formFields.description,
+        en: formFields.description,
+      },
+      ingredient: {
+        ru: formFields.ingredients,
+        en: formFields.ingredients,
+      },
+      instruction: {
+        ru: formFields.instruction,
+        en: formFields.instruction,
+      },
+      nutrition: [
+        {
+          weight: formFields.nutrition_weight,
+          percentage: formFields.nutrition_percentage,
+          ru: formFields.nutrition_name,
+          en: formFields.nutrition_name,
+        },
+      ],
+    };
 
-    dispatch(setFoods(foods));
-
-    console.log(foods);
-    updateResource(id, foods.data[id - 1]);
+    console.log("update data: ", updatedData);
+    updateResource(id, updatedData);
   };
 
   return (

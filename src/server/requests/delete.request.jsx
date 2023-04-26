@@ -1,5 +1,3 @@
-import GetRequest from "./get.request";
-
 export const deleteRequest = (id) => {
   const url = `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/delete?ids[0]=${id}`;
   fetch(url, {
