@@ -13,6 +13,14 @@ const Update = () => {
 
   const [currentFormField, setCurrentFormField] = useState(1);
 
+  const [stockList, setStockList] = useState([
+    { stock_name: "", stock_quantity: "" },
+  ]);
+
+  const [nutritionList, setNutritionList] = useState([
+    { nutrition_name: "", nutrition_weight: "", nutrition_percentage: "" },
+  ]);
+
   useEffect(() => {
     const url = `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/${id}?lang=ru`;
     const token = "14|uTEAoYjYUiHO9KEjA1lU0TOAFZB2z7z81VOeASx3";
@@ -49,10 +57,75 @@ const Update = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
+  const handleChangeStock = (event, index) => {
+    const { name, value } = event.target;
+    const list = [...stockList];
+    list[index][name] = value;
+    setStockList(list);
+  };
+
+  const handleStockAdd = () => {
+    setStockList([...stockList, { stock_name: "", stock_quantity: "" }]);
+  };
+
+  const handleStockRemove = (index) => {
+    const list = [...stockList];
+    list.splice(index, 1);
+    setStockList(list);
+  };
+
+  const handleNutritionAdd = () => {
+    setNutritionList([
+      ...nutritionList,
+      { nutrition_name: "", nutrition_weight: "", nutrition_percentage: "" },
+    ]);
+  };
+
+  const handleNutritionRemove = (index) => {
+    const list = [...nutritionList];
+    list.splice(index, 1);
+    setNutritionList(list);
+  };
+
+  const handleChangeNurition = (event, index) => {
+    const { name, value } = event.target;
+    const list = [...nutritionList];
+    list[index][name] = value;
+    setNutritionList(list);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const stock_id = show.data.stocks[0].id;
     const { category_id, servings, shop_id } = show.data;
+    // const category_id = 1,
+    //   servings = 1,
+    //   shop_id = 1, stock_id = 1;
+
+    const stock = [],
+      nutritions = [];
+
+    stockList.forEach((item, index) => {
+      console.log(item);
+
+      const stockID = index === 0 ? stock_id : stock_id + index;
+
+      stock.push({
+        stock_id: stockID,
+        min_quantity: item.stock_quantity,
+      });
+    });
+
+    console.log("stock: ", stock);
+
+    nutritionList.forEach((item) => {
+      nutritions.push({
+        weight: item.nutrition_weight,
+        percentage: item.nutrition_percentage,
+        ru: item.nutrition_name,
+        en: item.nutrition_name,
+      });
+    });
 
     const updatedData = {
       shop_id: shop_id,
@@ -63,12 +136,7 @@ const Update = () => {
       servings: servings,
       discount_type: formFields.discount_type,
       discount_price: formFields.discount_price,
-      stocks: [
-        {
-          stock_id: stock_id,
-          min_quantity: formFields.stock_quantity,
-        },
-      ],
+      stocks: [...stock],
       title: {
         ru: formFields.name,
         en: formFields.name,
@@ -85,19 +153,14 @@ const Update = () => {
         ru: formFields.instruction,
         en: formFields.instruction,
       },
-      nutrition: [
-        {
-          weight: formFields.nutrition_weight,
-          percentage: formFields.nutrition_percentage,
-          ru: formFields.nutrition_name,
-          en: formFields.nutrition_name,
-        },
-      ],
+      nutrition: [...nutritions],
     };
 
     console.log("update data: ", updatedData);
     updateResource(id, updatedData);
   };
+
+  console.log(stockList);
 
   return (
     <div className="update">
@@ -176,7 +239,7 @@ const Update = () => {
       <div className="edit-container">
         <form onSubmit={submitHandler}>
           <div
-            className={currentFormField == 1 ? "current-form" : "displayNone"}
+            className={currentFormField === 1 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
               <label>Name</label>
@@ -293,7 +356,7 @@ const Update = () => {
             </div>
           </div>
           <div
-            className={currentFormField == 2 ? "current-form" : "displayNone"}
+            className={currentFormField === 2 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
               <label>Instructions</label>
@@ -308,7 +371,7 @@ const Update = () => {
           </div>
 
           <div
-            className={currentFormField == 3 ? "current-form" : "displayNone"}
+            className={currentFormField === 3 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
               <label>Ingredients</label>
@@ -323,73 +386,127 @@ const Update = () => {
           </div>
 
           <div
-            className={currentFormField == 4 ? "current-form" : "displayNone"}
+            className={currentFormField === 4 ? "current-form" : "displayNone"}
           >
-            <div className="field-container">
-              <label>Stocks</label>
-              <select
-                name="stock_name"
-                value={formFields.stock_name}
-                onChange={handleChange}
-              >
-                <option
-                  value="tomato"
-                  name="tomato"
+            {stockList.map((service, index) => {
+              return (
+                <div
+                  className="stocks"
+                  key={index}
                 >
-                  tomato
-                </option>
-                <option
-                  value="potato"
-                  name="potato"
-                >
-                  potato
-                </option>
-              </select>
-            </div>
-            <div className="field-container">
-              <label>Min quantity</label>
-              <input
-                type="number"
-                onChange={handleChange}
-                required
-                name="stock_quantity"
-                value={formFields.stock_quantity}
-              />
-            </div>
+                  <div className="field-container">
+                    <label>Stocks</label>
+                    <select
+                      name="stock_name"
+                      value={service.stock_name}
+                      onChange={(event) => handleChangeStock(event, index)}
+                    >
+                      <option
+                        hidden
+                        disabled
+                      ></option>
+                      <option
+                        value="tomato"
+                        name="tomato"
+                      >
+                        tomato
+                      </option>
+                      <option
+                        value="potato"
+                        name="potato"
+                      >
+                        potato
+                      </option>
+                    </select>
+                  </div>
+                  <div className="field-container">
+                    <label>Min quantity</label>
+                    <input
+                      type="number"
+                      onChange={(event) => handleChangeStock(event, index)}
+                      required
+                      name="stock_quantity"
+                      value={service.stock_quantity}
+                    />
+                  </div>
+                  {stockList.length !== 1 && (
+                    <button
+                      type="button"
+                      className="delete-button"
+                      onClick={() => handleStockRemove(index)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="add-button"
+              onClick={handleStockAdd}
+            >
+              Add Stocks
+            </button>
           </div>
           <div
-            className={currentFormField == 5 ? "current-form" : "displayNone"}
+            className={currentFormField === 5 ? "current-form" : "displayNone"}
           >
-            <div className="field-container">
-              <label>Name</label>
-              <input
-                type="text"
-                required
-                onChange={handleChange}
-                name="nutrition_name"
-                value={formFields.nutrition_name}
-              />
-            </div>
-            <div className="field-container">
-              <label>Weight</label>
-              <input
-                type="text"
-                required
-                onChange={handleChange}
-                name="nutrition_weight"
-                value={formFields.nutrition_weight}
-              />
-            </div>
-            <div className="field-container">
-              <label>Percentage</label>
-              <input
-                type="number"
-                required
-                onChange={handleChange}
-                name="nutrition_percentage"
-                value={formFields.nutrition_percentage}
-              />
-            </div>
+            {nutritionList.map((service, index) => {
+              return (
+                <div
+                  className="nutritions"
+                  key={index}
+                >
+                  <div className="field-container">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      required
+                      onChange={(event) => handleChangeNurition(event, index)}
+                      name="nutrition_name"
+                      value={service.nutrition_name}
+                    />
+                  </div>
+                  <div className="field-container">
+                    <label>Weight</label>
+                    <input
+                      type="text"
+                      required
+                      onChange={(event) => handleChangeNurition(event, index)}
+                      name="nutrition_weight"
+                      value={service.nutrition_weight}
+                    />
+                  </div>
+                  <div className="field-container">
+                    <label>Percentage</label>
+                    <input
+                      type="number"
+                      required
+                      onChange={(event) => handleChangeNurition(event, index)}
+                      name="nutrition_percentage"
+                      value={service.nutrition_percentage}
+                    />
+                  </div>
+                  {nutritionList.length !== 1 && (
+                    <button
+                      type="button"
+                      className="delete-button"
+                      onClick={() => handleNutritionRemove(index)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="add-button"
+              onClick={handleNutritionAdd}
+            >
+              Add Nutrition
+            </button>
           </div>
 
           <button
