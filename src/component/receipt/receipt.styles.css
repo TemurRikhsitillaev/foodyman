@@ -50,6 +50,12 @@ h2 {
   transition: ease-in-out 0.2s;
 }
 
+.function-button:disabled {
+  background: #ffffff;
+  color: lightgray;
+  cursor: not-allowed;
+}
+
 .add-button:hover {
   background: #0037ff;
   color: #ffffff;
@@ -232,7 +238,7 @@ img {
   margin-bottom: 20px;
 }
 
-.delete {
+.delete-verify {
   width: 80px;
   height: 40px;
   margin-left: 10px;

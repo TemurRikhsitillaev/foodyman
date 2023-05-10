@@ -52,9 +52,11 @@ const App = () => {
             shopTitle,
             selected: false,
           });
+
+          return null;
         });
         permanent.reverse();
-        console.log(jsonData.data);
+        // console.log(jsonData.data);
         dispatch(setFoods(jsonData));
         dispatch(setRecipes(permanent));
       } catch (error) {

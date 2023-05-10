@@ -6,6 +6,7 @@ import { deleteRequest } from "../../server/requests/delete.request";
 
 // // //
 import "./receipt.styles.css";
+
 import deleteIconPath from "../../assets/delete-icon.svg";
 import editIconPath from "../../assets/edit-icon.svg";
 import { setRecipes } from "../../store/recipes/recipes.actions";
@@ -37,7 +38,7 @@ const Receipts = () => {
       )
     );
 
-    if (recipes.every((recipe) => recipe.selected == true)) {
+    if (recipes.every((recipe) => recipe.selected === true)) {
       setSelectAll(true);
     } else {
       setSelectAll(false);
@@ -63,12 +64,13 @@ const Receipts = () => {
     recipes.map((recipe) => {
       if (recipe.selected) {
         deleteRequest(recipe.id);
-        console.log("deleted", recipe.id);
+        // console.log("deleted", recipe.id);
       }
     });
   };
 
   const handleVerifyDelete = () => {
+    if (recipes.every((recipe) => recipe.selected === false)) return;
     setVerifyDeleteOpen(!isVerifyDeleteOpen);
   };
 
@@ -90,14 +92,14 @@ const Receipts = () => {
               <button
                 type="button"
                 onClick={handleDeleteSelected}
-                className="delete yes"
+                className="delete-verify yes"
               >
                 Yes
               </button>
               <button
                 type="button"
                 onClick={handleVerifyDelete}
-                className="delete no"
+                className="delete-verify no"
               >
                 No
               </button>
@@ -111,11 +113,10 @@ const Receipts = () => {
           <button
             className="function-button"
             onClick={handleVerifyDelete}
+            disabled={recipes.every((recipe) => recipe.selected === false)}
           >
             Delete selected
           </button>
-
-          {/* <button className="add-button function-button">Add recipe</button> */}
         </div>
         <div className="receipt-body">
           <h2>Recipes</h2>

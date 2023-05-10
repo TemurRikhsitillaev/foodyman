@@ -98,9 +98,6 @@ const Update = () => {
     e.preventDefault();
     const stock_id = show.data.stocks[0].id;
     const { category_id, servings, shop_id } = show.data;
-    // const category_id = 1,
-    //   servings = 1,
-    //   shop_id = 1, stock_id = 1;
 
     const stock = [],
       nutritions = [];
@@ -115,8 +112,6 @@ const Update = () => {
         min_quantity: item.stock_quantity,
       });
     });
-
-    console.log("stock: ", stock);
 
     nutritionList.forEach((item) => {
       nutritions.push({
@@ -158,9 +153,8 @@ const Update = () => {
 
     console.log("update data: ", updatedData);
     updateResource(id, updatedData);
+    alert("Updated successfully!");
   };
-
-  console.log(stockList);
 
   return (
     <div className="update">
