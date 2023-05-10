@@ -44,6 +44,18 @@ h2 {
   cursor: pointer;
 }
 
+.function-button:hover {
+  background: #860900;
+  color: #ffffff;
+  transition: ease-in-out 0.2s;
+}
+
+.add-button:hover {
+  background: #0037ff;
+  color: #ffffff;
+  transition: ease-in-out 0.2s;
+}
+
 .receipt-body {
   width: 100%;
   height: max-content;
@@ -185,4 +197,50 @@ img {
 
 .table-functions {
   width: max-content;
+}
+
+.verify-delete-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgb(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.verify-delete {
+  width: 40vw;
+  height: 30vh;
+
+  background: #ffffff;
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.verify-text {
+  font-size: 18px;
+  text-align: center;
+
+  margin-bottom: 20px;
+}
+
+.delete {
+  width: 80px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.yes:hover {
+  background: #ff0000;
+}
+.no:hover {
+  background: #0a921c;
 }

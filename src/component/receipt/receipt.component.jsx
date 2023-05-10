@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectRecipes } from "../../store/recipes/recipes.selector";
@@ -14,6 +14,7 @@ const Receipts = () => {
   const dispatch = useDispatch();
   const { recipes } = useSelector(selectRecipes);
   const [selectAll, setSelectAll] = useState(false);
+  const [isVerifyDeleteOpen, setVerifyDeleteOpen] = useState(false);
 
   const handleDelete = (event) => {
     const id = Number(event.target.id);
@@ -67,120 +68,158 @@ const Receipts = () => {
     });
   };
 
+  const handleVerifyDelete = () => {
+    setVerifyDeleteOpen(!isVerifyDeleteOpen);
+  };
+
   return (
-    <div className="receipt-container">
-      <h1>Receipts</h1>
-      <div className="receipt-functions">
-        <button
-          className="function-button"
-          onClick={handleDeleteSelected}
+    <Fragment>
+      {isVerifyDeleteOpen && (
+        <div
+          className="verify-delete-wrapper"
+          onClick={handleVerifyDelete}
         >
-          Delete selected
-        </button>
-        <button className="add-button function-button">Add recipe</button>
-      </div>
-      <div className="receipt-body">
-        <h2>Recipes</h2>
+          <div
+            className="verify-delete"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="verify-text">
+              Are you sure you want to delete this recipe?
+            </p>
+            <div>
+              <button
+                type="button"
+                onClick={handleDeleteSelected}
+                className="delete yes"
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                onClick={handleVerifyDelete}
+                className="delete no"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="receipt-container">
+        <h1>Receipts</h1>
+        <div className="receipt-functions">
+          <button
+            className="function-button"
+            onClick={handleVerifyDelete}
+          >
+            Delete selected
+          </button>
 
-        <table>
-          <thead>
-            <tr>
-              <th className="checkbox">
-                <input
-                  type="checkbox"
-                  className="input-checkbox"
-                  onChange={handleSelectAllCheckbox}
-                  checked={selectAll}
-                />
-              </th>
-              <th className="id">ID</th>
-              <th className="title">Title</th>
-              <th className="shop">Shop/Restaurant</th>
-              <th className="image-container">Image</th>
-              <th className="recipe-category">Recipe Category</th>
-              <th className="discount">Discount</th>
-              <th className="options">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recipes.map((data, key) => {
-              const {
-                id,
-                order,
-                title,
-                productImage,
-                discountPrice,
-                discountType,
-                categoryTitle,
-                shopImage,
-                shopTitle,
-                selected,
-              } = data;
+          {/* <button className="add-button function-button">Add recipe</button> */}
+        </div>
+        <div className="receipt-body">
+          <h2>Recipes</h2>
 
-              const discountSign = discountType === "fix" ? "$" : "%";
+          <table>
+            <thead>
+              <tr>
+                <th className="checkbox">
+                  <input
+                    type="checkbox"
+                    className="input-checkbox"
+                    onChange={handleSelectAllCheckbox}
+                    checked={selectAll}
+                  />
+                </th>
+                <th className="id">ID</th>
+                <th className="title">Title</th>
+                <th className="shop">Shop/Restaurant</th>
+                <th className="image-container">Image</th>
+                <th className="recipe-category">Recipe Category</th>
+                <th className="discount">Discount</th>
+                <th className="options">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recipes.map((data, key) => {
+                const {
+                  id,
+                  order,
+                  title,
+                  productImage,
+                  discountPrice,
+                  discountType,
+                  categoryTitle,
+                  shopImage,
+                  shopTitle,
+                  selected,
+                } = data;
 
-              return (
-                <tr key={key}>
-                  <td className="checkbox">
-                    <input
-                      type="checkbox"
-                      className="input-checkbox"
-                      onChange={handleSelectCheckbox}
-                      id={id}
-                      checked={selected}
-                    />
-                  </td>
-                  <td className="id">{order + 1}</td>
-                  <td className="title">{title}</td>
-                  <td className="shop">
-                    <img
-                      className="shop-image"
-                      src={shopImage}
-                      alt="restorant/shop image"
-                    />
-                    {shopTitle}
-                  </td>
-                  <td className="image-container">
-                    <img
-                      src={productImage}
-                      alt="recipe image"
-                    />
-                  </td>
-                  <td className="recipe-category">{categoryTitle}</td>
-                  <td className="discount">
-                    {discountPrice} {discountSign}
-                  </td>
-                  <td className="table-functions">
-                    <Link
-                      to={`/update/${id}`}
-                      className="table-function-button edit"
-                      state={{ id: id }}
-                    >
-                      <img
-                        src={editIconPath}
-                        className="function-image"
+                const discountSign = discountType === "fix" ? "$" : "%";
+
+                return (
+                  <tr key={key}>
+                    <td className="checkbox">
+                      <input
+                        type="checkbox"
+                        className="input-checkbox"
+                        onChange={handleSelectCheckbox}
                         id={id}
+                        checked={selected}
                       />
-                    </Link>
-                    <button
-                      className="table-function-button delete"
-                      onClick={handleDelete}
-                      id={id}
-                    >
+                    </td>
+                    <td className="id">{order + 1}</td>
+                    <td className="title">{title}</td>
+                    <td className="shop">
                       <img
-                        src={deleteIconPath}
-                        className="function-image"
-                        id={id}
+                        className="shop-image"
+                        src={shopImage}
+                        alt="restorant/shop image"
                       />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      {shopTitle}
+                    </td>
+                    <td className="image-container">
+                      <img
+                        src={productImage}
+                        alt="recipe image"
+                      />
+                    </td>
+                    <td className="recipe-category">{categoryTitle}</td>
+                    <td className="discount">
+                      {discountPrice} {discountSign}
+                    </td>
+                    <td className="table-functions">
+                      <Link
+                        to={`/update/${id}`}
+                        className="table-function-button edit"
+                        state={{ id: id }}
+                      >
+                        <img
+                          src={editIconPath}
+                          className="function-image"
+                          id={id}
+                        />
+                      </Link>
+                      <button
+                        className="table-function-button delete"
+                        onClick={handleDelete}
+                        id={id}
+                      >
+                        <img
+                          src={deleteIconPath}
+                          className="function-image"
+                          id={id}
+                        />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
