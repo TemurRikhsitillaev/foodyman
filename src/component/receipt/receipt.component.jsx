@@ -64,7 +64,6 @@ const Receipts = () => {
     recipes.map((recipe) => {
       if (recipe.selected) {
         deleteRequest(recipe.id);
-        // console.log("deleted", recipe.id);
       }
     });
   };

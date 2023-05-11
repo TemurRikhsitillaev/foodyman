@@ -24,39 +24,37 @@ const App = () => {
         );
 
         const jsonData = await response.json();
-        const permanent = [];
-        jsonData.data.map((recipe, order) => {
-          const {
-            id,
-            img: productImage,
-            discount_price: discountPrice,
-            discount_type: discountType,
-            shop,
-            category,
-            translation,
-          } = recipe; // img is image of product
-          const { title } = translation;
-          const categoryTitle = category.translation.title;
-          const { logo_img: shopImage, translation: shop_translation } = shop; // shop image and in the translation object we have title
-          const { title: shopTitle } = shop_translation; // shop title
+        const permanent = jsonData.data
+          .map((recipe, order) => {
+            const {
+              id,
+              img: productImage,
+              discount_price: discountPrice,
+              discount_type: discountType,
+              shop,
+              category,
+              translation,
+            } = recipe; // img is image of product
+            const { title } = translation;
+            const categoryTitle = category.translation.title;
+            const { logo_img: shopImage, translation: shop_translation } = shop; // shop image and in the translation object we have title
+            const { title: shopTitle } = shop_translation; // shop title
 
-          permanent.push({
-            id,
-            order,
-            title,
-            categoryTitle,
-            productImage,
-            discountPrice,
-            discountType,
-            shopImage,
-            shopTitle,
-            selected: false,
-          });
+            return {
+              id,
+              order,
+              title,
+              categoryTitle,
+              productImage,
+              discountPrice,
+              discountType,
+              shopImage,
+              shopTitle,
+              selected: false,
+            };
+          })
+          .reverse();
 
-          return null;
-        });
-        permanent.reverse();
-        // console.log(jsonData.data);
         dispatch(setFoods(jsonData));
         dispatch(setRecipes(permanent));
       } catch (error) {
@@ -78,7 +76,6 @@ const App = () => {
         element={<Update />}
       />
     </Routes>
-    // <Update />
   );
 };
 
