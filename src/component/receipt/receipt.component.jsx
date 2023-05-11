@@ -1,10 +1,16 @@
 import React, { Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectRecipes } from "../../store/recipes/recipes.selector";
-import { deleteRequest } from "../../server/requests/delete.request";
 
-// // //
+import { selectRecipes } from "../../store/recipes/recipes.selector";
+
+import {
+  REQUEST_TYPES,
+  requestDataConstructor,
+} from "../../server/requests/request.server";
+
+// // // STYLES // // //
+
 import "./receipt.styles.scss";
 
 import deleteIconPath from "../../assets/delete-icon.svg";
@@ -13,14 +19,18 @@ import { setRecipes } from "../../store/recipes/recipes.actions";
 
 const Receipts = () => {
   const dispatch = useDispatch();
+
   const { recipes } = useSelector(selectRecipes);
+
   const [selectAll, setSelectAll] = useState(false);
   const [isVerifyDeleteOpen, setVerifyDeleteOpen] = useState(false);
+
+  // // // ACTION HANDLERS // // //
 
   const handleDelete = (event) => {
     const id = Number(event.target.id);
 
-    deleteRequest(id);
+    requestDataConstructor(REQUEST_TYPES.DELETE, id);
   };
 
   const handleSelectCheckbox = (event) => {
@@ -63,7 +73,7 @@ const Receipts = () => {
   const handleDeleteSelected = () => {
     recipes.map((recipe) => {
       if (recipe.selected) {
-        deleteRequest(recipe.id);
+        requestDataConstructor(REQUEST_TYPES.DELETE, recipe.id);
       }
     });
   };

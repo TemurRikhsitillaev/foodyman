@@ -5,7 +5,7 @@ const requestURLs = {
   recipesURL: "receipts?perPage=10&page=1",
   updateURL: "receipts/",
   showURL: { firstHalf: "receipts/", secondHalf: "?lang=ru" },
-  deleteURL: "receipts/",
+  deleteURL: "receipts/delete?ids[0]=",
 };
 
 export const REQUEST_TYPES = {
@@ -57,12 +57,32 @@ export const requestDataConstructor = async (type, id = null, body = {}) => {
 
       return requestToServer(url, fetchObject);
 
-    //   case REQUEST_TYPES.UPDATE:
-    //     const url = `${requestURLs.serverURL}${requestURLs.updateURL}${id}`;
-    //   case REQUEST_TYPES.DELETE:
-    //     return `${requestURLs.serverURL}${requestURLs.deleteURL}${id}`;
-    //   case REQUEST_TYPES.GET_SHOW:
-    //     return `${requestURLs.serverURL}${requestURLs.showURL.firstHalf}${id}${requestURLs.showURL.secondHalf}`;
+    case REQUEST_TYPES.UPDATE:
+      url = `${requestURLs.serverURL}${requestURLs.updateURL}${id}`;
+
+      fetchObject = {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      return requestToServer(url, fetchObject);
+
+    case REQUEST_TYPES.DELETE:
+      url = `${requestURLs.serverURL}${requestURLs.deleteURL}${id}`;
+
+      fetchObject = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      return requestToServer(url, fetchObject);
+
     default:
       return;
   }

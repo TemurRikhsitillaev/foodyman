@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { updateResource } from "../../server/requests/put.request";
 import { defaultFormFields } from "../../utils/default-values/update-values.default-values";
+import { REQUEST_TYPES } from "../../server/requests/request.server";
+import { requestDataConstructor } from "../../server/requests/request.server";
 
 import "./update.styles.scss";
 
@@ -9,6 +10,7 @@ const Update = () => {
   const id = Number(useParams().id);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
+
   const [show, setShow] = useState([]);
 
   const [currentFormField, setCurrentFormField] = useState(1);
@@ -22,23 +24,9 @@ const Update = () => {
   ]);
 
   useEffect(() => {
-    const url = `https://demo-api.foodyman.org/api/v1/dashboard/admin/receipts/${id}?lang=ru`;
-    const token = "14|uTEAoYjYUiHO9KEjA1lU0TOAFZB2z7z81VOeASx3";
-
     const fetchData = async () => {
-      try {
-        const response = await fetch(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          method: "GET",
-        });
-
-        const jsonData = await response.json();
-        setShow(jsonData);
-      } catch (error) {
-        console.error("Error: ", error);
-      }
+      const jsonData = await requestDataConstructor(REQUEST_TYPES.GET_SHOW, id);
+      setShow(jsonData);
     };
 
     fetchData();
@@ -103,8 +91,6 @@ const Update = () => {
       nutritions = [];
 
     stockList.forEach((item, index) => {
-      console.log(item);
-
       const stockID = index === 0 ? stock_id : stock_id + index;
 
       stock.push({
@@ -152,8 +138,7 @@ const Update = () => {
     };
 
     console.log("update data: ", updatedData);
-    updateResource(id, updatedData);
-    alert("Updated successfully!");
+    requestDataConstructor(REQUEST_TYPES.UPDATE, id, updatedData);
   };
 
   return (
