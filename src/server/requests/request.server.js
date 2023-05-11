@@ -45,6 +45,18 @@ export const requestDataConstructor = async (type, id = null, body = {}) => {
 
       return requestToServer(url, fetchObject);
 
+    case REQUEST_TYPES.GET_SHOW:
+      url = `${requestURLs.serverURL}${requestURLs.showURL.firstHalf}${id}${requestURLs.showURL.secondHalf}`;
+
+      fetchObject = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      return requestToServer(url, fetchObject);
+
     //   case REQUEST_TYPES.UPDATE:
     //     const url = `${requestURLs.serverURL}${requestURLs.updateURL}${id}`;
     //   case REQUEST_TYPES.DELETE:
