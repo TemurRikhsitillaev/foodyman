@@ -87,25 +87,22 @@ const Update = () => {
     const stock_id = show.data.stocks[0].id;
     const { category_id, servings, shop_id } = show.data;
 
-    const stock = [],
-      nutritions = [];
-
-    stockList.forEach((item, index) => {
+    const stock = stockList.map((item, index) => {
       const stockID = index === 0 ? stock_id : stock_id + index;
 
-      stock.push({
+      return {
         stock_id: stockID,
         min_quantity: item.stock_quantity,
-      });
+      };
     });
 
-    nutritionList.forEach((item) => {
-      nutritions.push({
+    const nutritions = nutritionList.map((item) => {
+      return {
         weight: item.nutrition_weight,
         percentage: item.nutrition_percentage,
         ru: item.nutrition_name,
         en: item.nutrition_name,
-      });
+      };
     });
 
     const updatedData = {
@@ -137,7 +134,6 @@ const Update = () => {
       nutrition: [...nutritions],
     };
 
-    console.log("update data: ", updatedData);
     requestDataConstructor(REQUEST_TYPES.UPDATE, id, updatedData);
   };
 
