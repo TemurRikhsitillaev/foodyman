@@ -5,7 +5,7 @@ import { selectRecipes } from "../../store/recipes/recipes.selector";
 import { deleteRequest } from "../../server/requests/delete.request";
 
 // // //
-import "./receipt.styles.css";
+import "./receipt.styles.scss";
 
 import deleteIconPath from "../../assets/delete-icon.svg";
 import editIconPath from "../../assets/edit-icon.svg";
