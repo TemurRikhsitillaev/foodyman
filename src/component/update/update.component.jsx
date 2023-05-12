@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { defaultFormFields } from "../../utils/default-values/update-values.default-values";
 import { REQUEST_TYPES } from "../../server/requests/request.server";
 import { requestDataConstructor } from "../../server/requests/request.server";
+import FormInput from "../form-input/form-input.component";
 
 import "./update.styles.scss";
 
@@ -43,6 +44,7 @@ const Update = () => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
+    console.log(formFields);
   };
 
   const handleChangeStock = (event, index) => {
@@ -50,6 +52,7 @@ const Update = () => {
     const list = [...stockList];
     list[index][name] = value;
     setStockList(list);
+    console.log(stockList);
   };
 
   const handleStockAdd = () => {
@@ -217,111 +220,132 @@ const Update = () => {
             className={currentFormField === 1 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
-              <label>Name</label>
-              <input
+              <FormInput
+                label="Name"
                 type="text"
                 required
                 onChange={handleChange}
                 name="name"
                 value={formFields.name}
+                className="input"
+                placeholder="Name"
               />
             </div>
             <div className="field-container">
-              <label>Shop/Restaurant</label>
-              <select
+              <FormInput
+                myType="select"
+                label="Shop/Restaurant"
+                options={[
+                  {
+                    id: 1,
+                    value: "Kids Plate",
+                  },
+                  {
+                    id: 2,
+                    value: "Cakes",
+                  },
+                ]}
                 name="shop_name"
                 value={formFields.shop_name}
                 onChange={handleChange}
-              >
-                <option value="Kids Plate">Kids Plate</option>
-                <option value="Cakes">Cakes</option>
-              </select>
+              />
             </div>
             <div className="field-container">
-              <label>Category</label>
-              <select
+              <FormInput
+                myType="select"
+                label="Category"
+                options={[
+                  {
+                    id: 1,
+                    value: "Foodyman Recipe",
+                  },
+                  {
+                    id: 2,
+                    value: "Italian Recipe",
+                  },
+                ]}
                 name="category_name"
                 value={formFields.category_name}
                 onChange={handleChange}
-              >
-                <option
-                  value="Foodyman Recipe"
-                  name="category_name"
-                >
-                  Foodyman Recipe
-                </option>
-                <option
-                  value="Italian Recipe"
-                  name="category_name"
-                >
-                  Italian Recipe
-                </option>
-              </select>
+              />
             </div>
             <div className="field-container">
-              <label>Description</label>
-              <input
+              <FormInput
+                label="Description"
                 type="text"
                 required
                 name="description"
                 onChange={handleChange}
                 value={formFields.description}
+                placeholder="Description"
               />
             </div>
             <div className="field-container">
-              <label>Calories</label>
-              <input
+              <FormInput
+                label="Calories"
                 type="number"
                 required
                 onChange={handleChange}
                 name="calories"
                 value={formFields.calories}
+                placeholder="Calories"
               />
             </div>
             <div className="field-container">
-              <label>Active time</label>
-              <input
+              <FormInput
+                label="Active time"
                 type="text"
                 required
                 onChange={handleChange}
                 name="active_time"
                 value={formFields.active_time}
+                placeholder="Active time"
               />
             </div>
             <div className="field-container">
-              <label>Total time</label>
-              <input
+              <FormInput
+                label="Total time"
                 type="text"
                 required
                 onChange={handleChange}
                 name="total_time"
                 value={formFields.total_time}
+                placeholder="Total time"
               />
             </div>
             <div className="field-container">
-              <label>Discount type</label>
-              <select
+              <FormInput
+                myType="select"
+                label="Discount type"
+                options={[
+                  {
+                    id: 1,
+                    value: "fix",
+                  },
+                  {
+                    id: 2,
+                    value: "percent",
+                  },
+                ]}
                 onChange={handleChange}
                 name="discount_type"
                 value={formFields.discount_type}
-              >
-                <option value="fix">fix</option>
-                <option value="percent">percent</option>
-              </select>
+              />
             </div>
             <div className="field-container">
-              <label>Discount price</label>
-              <input
+              <FormInput
+                label="Discount price"
                 type="number"
                 required
                 onChange={handleChange}
                 name="discount_price"
                 value={formFields.discount_price}
+                placeholder="Discount price"
               />
             </div>
             <div className="field-container">
-              <label>Image</label>
-              <input
+              <FormInput
+                label="Image"
                 type="file"
                 required
                 onChange={handleChange}
@@ -334,13 +358,14 @@ const Update = () => {
             className={currentFormField === 2 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
-              <label>Instructions</label>
-              <input
+              <FormInput
+                label="Instructions"
                 type="text"
                 required
                 onChange={handleChange}
                 name="instruction"
                 value={formFields.instruction}
+                placeholder="Instructions"
               />
             </div>
           </div>
@@ -349,13 +374,14 @@ const Update = () => {
             className={currentFormField === 3 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
-              <label>Ingredients</label>
-              <input
+              <FormInput
+                label="Ingredients"
                 type="text"
                 onChange={handleChange}
                 required
                 name="ingredients"
                 value={formFields.ingredients}
+                placeholder="Ingredients"
               />
             </div>
           </div>
@@ -370,38 +396,39 @@ const Update = () => {
                   key={index}
                 >
                   <div className="field-container">
-                    <label>Stocks</label>
-                    <select
+                    <FormInput
+                      myType="select"
+                      label="Stocks"
+                      options={[
+                        {
+                          id: 0,
+                          value: "",
+                          hidden: true,
+                          disabled: true,
+                        },
+                        {
+                          id: 1,
+                          value: "tomato",
+                        },
+                        {
+                          id: 2,
+                          value: "potato",
+                        },
+                      ]}
                       name="stock_name"
                       value={service.stock_name}
                       onChange={(event) => handleChangeStock(event, index)}
-                    >
-                      <option
-                        hidden
-                        disabled
-                      ></option>
-                      <option
-                        value="tomato"
-                        name="tomato"
-                      >
-                        tomato
-                      </option>
-                      <option
-                        value="potato"
-                        name="potato"
-                      >
-                        potato
-                      </option>
-                    </select>
+                    />
                   </div>
                   <div className="field-container">
-                    <label>Min quantity</label>
-                    <input
+                    <FormInput
+                      label="Min quantity"
                       type="number"
                       onChange={(event) => handleChangeStock(event, index)}
                       required
                       name="stock_quantity"
                       value={service.stock_quantity}
+                      placeholder="Min quantity"
                     />
                   </div>
                   {stockList.length !== 1 && (
@@ -434,33 +461,36 @@ const Update = () => {
                   key={index}
                 >
                   <div className="field-container">
-                    <label>Name</label>
-                    <input
+                    <FormInput
+                      label="Name"
                       type="text"
                       required
                       onChange={(event) => handleChangeNurition(event, index)}
                       name="nutrition_name"
                       value={service.nutrition_name}
+                      placeholder="Name"
                     />
                   </div>
                   <div className="field-container">
-                    <label>Weight</label>
-                    <input
+                    <FormInput
+                      label="Weight"
                       type="text"
                       required
                       onChange={(event) => handleChangeNurition(event, index)}
                       name="nutrition_weight"
                       value={service.nutrition_weight}
+                      placeholder="Weight"
                     />
                   </div>
                   <div className="field-container">
-                    <label>Percentage</label>
-                    <input
+                    <FormInput
+                      label="Percentage"
                       type="number"
                       required
                       onChange={(event) => handleChangeNurition(event, index)}
                       name="nutrition_percentage"
                       value={service.nutrition_percentage}
+                      placeholder="Percentage"
                     />
                   </div>
                   {nutritionList.length !== 1 && (
