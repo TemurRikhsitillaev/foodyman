@@ -1,0 +1,135 @@
+.current-button {
+  width: 50px;
+  height: 50px;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+  &:disabled {
+    background: #a70024;
+    color: #ffffff;
+  }
+}
+.current-button-active {
+  background: #003aa7;
+  color: #ffffff;
+  &:hover {
+    background-color: #003aa7;
+  }
+}
+
+.button {
+  width: 100px;
+  height: 50px;
+  background: #003aa7;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #ffffff;
+}
+
+.add-button {
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: white;
+  border: 2px solid rgb(0, 209, 0);
+  border-radius: 10px;
+  font-size: 20px;
+  color: rgb(0, 150, 0);
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.delete-button {
+  color: red;
+  font-size: 1rem;
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid red;
+
+  cursor: pointer;
+}
+
+.delete-verify {
+  width: 80px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.yes:hover {
+  background: #ff0000;
+}
+.no:hover {
+  background: #0a921c;
+}
+
+.function-button {
+  width: max-content;
+  padding: 10px 12px;
+  border: 1px solid #001d8648;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 1em;
+  cursor: pointer;
+
+  &:hover {
+    background: #860900;
+    color: #ffffff;
+    transition: ease-in-out 0.2s;
+  }
+
+  &:disabled {
+    background: #ffffff;
+    color: lightgray;
+    cursor: not-allowed;
+  }
+}
+
+.table-function-button {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #ffffff;
+
+  border: 1px solid #001d8648;
+  border-radius: 10px;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  .function-image {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.edit:hover {
+  background: #0037ff;
+  color: #ffffff;
+}
+
+.delete:hover {
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.displayNone {
+  display: none;
+}

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { selectRecipes } from "../../store/recipes/recipes.selector";
+import Button from "../button/button.component";
 
 import {
   REQUEST_TYPES,
@@ -86,32 +87,26 @@ const Receipts = () => {
   return (
     <Fragment>
       {isVerifyDeleteOpen && (
-        <div
-          className="verify-delete-wrapper"
-          onClick={handleVerifyDelete}
-        >
-          <div
-            className="verify-delete"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="verify-delete-wrapper" onClick={handleVerifyDelete}>
+          <div className="verify-delete" onClick={(e) => e.stopPropagation()}>
             <p className="verify-text">
               Are you sure you want to delete this recipe?
             </p>
             <div>
-              <button
+              <Button
                 type="button"
                 onClick={handleDeleteSelected}
                 className="delete-verify yes"
               >
                 Yes
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 onClick={handleVerifyDelete}
                 className="delete-verify no"
               >
                 No
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -119,13 +114,13 @@ const Receipts = () => {
       <div className="receipt-container">
         <h1>Receipts</h1>
         <div className="receipt-functions">
-          <button
+          <Button
             className="function-button"
             onClick={handleVerifyDelete}
             disabled={recipes.every((recipe) => recipe.selected === false)}
           >
             Delete selected
-          </button>
+          </Button>
         </div>
         <div className="receipt-body">
           <h2>Recipes</h2>
@@ -189,10 +184,7 @@ const Receipts = () => {
                       {shopTitle}
                     </td>
                     <td className="image-container">
-                      <img
-                        src={productImage}
-                        alt="recipe image"
-                      />
+                      <img src={productImage} alt="recipe image" />
                     </td>
                     <td className="recipe-category">{categoryTitle}</td>
                     <td className="discount">
@@ -210,7 +202,7 @@ const Receipts = () => {
                           id={id}
                         />
                       </Link>
-                      <button
+                      <Button
                         className="table-function-button delete"
                         onClick={handleDelete}
                         id={id}
@@ -220,7 +212,7 @@ const Receipts = () => {
                           className="function-image"
                           id={id}
                         />
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 );

@@ -4,6 +4,7 @@ import { defaultFormFields } from "../../utils/default-values/update-values.defa
 import { REQUEST_TYPES } from "../../server/requests/request.server";
 import { requestDataConstructor } from "../../server/requests/request.server";
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import "./update.styles.scss";
 
@@ -144,7 +145,7 @@ const Update = () => {
     <div className="update">
       <div className="header">
         <div className="current-container">
-          <button
+          <Button
             type="button"
             onClick={() => setCurrentFormField(1)}
             className={
@@ -154,11 +155,11 @@ const Update = () => {
             }
           >
             1
-          </button>
+          </Button>
           <span>Recipe</span>
         </div>
         <div className="current-container">
-          <button
+          <Button
             type="button"
             onClick={() => setCurrentFormField(2)}
             className={
@@ -168,11 +169,11 @@ const Update = () => {
             }
           >
             2
-          </button>
+          </Button>
           <span>Instructions</span>
         </div>
         <div className="current-container">
-          <button
+          <Button
             type="button"
             onClick={() => setCurrentFormField(3)}
             className={
@@ -182,11 +183,11 @@ const Update = () => {
             }
           >
             3
-          </button>
+          </Button>
           <span>Ingredients</span>
         </div>
         <div className="current-container">
-          <button
+          <Button
             type="button"
             onClick={() => setCurrentFormField(4)}
             className={
@@ -196,11 +197,11 @@ const Update = () => {
             }
           >
             4
-          </button>
+          </Button>
           <span>Stocks</span>
         </div>
         <div className="current-container">
-          <button
+          <Button
             type="button"
             onClick={() => setCurrentFormField(5)}
             className={
@@ -210,7 +211,7 @@ const Update = () => {
             }
           >
             5
-          </button>
+          </Button>
           <span>Nutritions</span>
         </div>
       </div>
@@ -391,10 +392,7 @@ const Update = () => {
           >
             {stockList.map((service, index) => {
               return (
-                <div
-                  className="stocks"
-                  key={index}
-                >
+                <div className="stocks" key={index}>
                   <div className="field-container">
                     <FormInput
                       myType="select"
@@ -432,34 +430,31 @@ const Update = () => {
                     />
                   </div>
                   {stockList.length !== 1 && (
-                    <button
+                    <Button
                       type="button"
                       className="delete-button"
                       onClick={() => handleStockRemove(index)}
                     >
                       Delete
-                    </button>
+                    </Button>
                   )}
                 </div>
               );
             })}
-            <button
+            <Button
               type="button"
               className="add-button"
               onClick={handleStockAdd}
             >
               Add Stocks
-            </button>
+            </Button>
           </div>
           <div
             className={currentFormField === 5 ? "current-form" : "displayNone"}
           >
             {nutritionList.map((service, index) => {
               return (
-                <div
-                  className="nutritions"
-                  key={index}
-                >
+                <div className="nutritions" key={index}>
                   <div className="field-container">
                     <FormInput
                       label="Name"
@@ -494,52 +489,49 @@ const Update = () => {
                     />
                   </div>
                   {nutritionList.length !== 1 && (
-                    <button
+                    <Button
                       type="button"
                       className="delete-button"
                       onClick={() => handleNutritionRemove(index)}
                     >
                       Delete
-                    </button>
+                    </Button>
                   )}
                 </div>
               );
             })}
-            <button
+            <Button
               type="button"
               className="add-button"
               onClick={handleNutritionAdd}
             >
               Add Nutrition
-            </button>
+            </Button>
           </div>
 
-          <button
-            className={currentFormField > 1 ? "button prev" : "displayNone"}
+          <Button
+            className={currentFormField > 1 ? "button" : "displayNone"}
             type="button"
             onClick={handlePrevFormField}
           >
             Prev
-          </button>
-          <button
-            className={currentFormField < 5 ? "button next" : "displayNone"}
+          </Button>
+          <Button
+            className={currentFormField < 5 ? "button" : "displayNone"}
             type="button"
             onClick={handleNextFormField}
           >
             Next
-          </button>
-          <button
-            className={currentFormField === 5 ? "button submit" : "displayNone"}
+          </Button>
+          <Button
+            className={currentFormField === 5 ? "button" : "displayNone"}
             type="submit"
           >
             Submit
-          </button>
-          <button
-            type="button"
-            onClick={submitHandler}
-          >
+          </Button>
+          {/* <button type="button" onClick={submitHandler}>
             submit test
-          </button>
+          </button> */}
         </form>
       </div>
     </div>

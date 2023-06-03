@@ -25,28 +25,6 @@
     border: 1px solid #001d8648;
     border-radius: 10px;
     padding: 20px;
-
-    .function-button {
-      width: max-content;
-      padding: 10px 12px;
-      border: 1px solid #001d8648;
-      border-radius: 10px;
-      background: #ffffff;
-      font-size: 1em;
-      cursor: pointer;
-
-      &:hover {
-        background: #860900;
-        color: #ffffff;
-        transition: ease-in-out 0.2s;
-      }
-
-      &:disabled {
-        background: #ffffff;
-        color: lightgray;
-        cursor: not-allowed;
-      }
-    }
   }
 
   .receipt-body {
@@ -99,38 +77,6 @@ table {
         width: 100px;
         height: auto;
         border-radius: 10px;
-      }
-
-      .table-function-button {
-        width: 50px;
-        height: 50px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        background: #ffffff;
-
-        border: 1px solid #001d8648;
-        border-radius: 10px;
-
-        cursor: pointer;
-        overflow: hidden;
-
-        .function-image {
-          width: 22px;
-          height: 22px;
-        }
-      }
-
-      .edit:hover {
-        background: #0037ff;
-        color: #ffffff;
-      }
-
-      .delete:hover {
-        background: #ff0000;
-        color: #ffffff;
       }
 
       .input-checkbox {
@@ -196,18 +142,6 @@ table {
       text-align: center;
 
       margin-bottom: 20px;
-    }
-    .delete-verify {
-      width: 80px;
-      height: 40px;
-      margin-left: 10px;
-    }
-
-    .yes:hover {
-      background: #ff0000;
-    }
-    .no:hover {
-      background: #0a921c;
     }
   }
 }
