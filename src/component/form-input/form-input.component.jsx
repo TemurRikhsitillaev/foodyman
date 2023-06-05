@@ -4,7 +4,7 @@ import "./form-input.styles.scss";
 
 const FormInput = ({
   myType = "input",
-  label,
+  label = null,
   options = null,
   ...otherprops
 }) => {
@@ -24,11 +24,7 @@ const FormInput = ({
           <select {...otherprops}>
             {options.map(({ id, value, ...otherpropsoption }) => {
               return (
-                <option
-                  key={id}
-                  value={value}
-                  {...otherpropsoption}
-                >
+                <option key={id} value={value} {...otherpropsoption}>
                   {value}
                 </option>
               );
@@ -36,6 +32,9 @@ const FormInput = ({
           </select>
         </Fragment>
       );
+
+    case "checkbox":
+      return <input {...otherprops} />;
 
     default:
       return null;

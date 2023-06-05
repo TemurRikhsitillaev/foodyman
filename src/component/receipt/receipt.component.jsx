@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { selectRecipes } from "../../store/recipes/recipes.selector";
+import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
 import {
@@ -129,7 +130,7 @@ const Receipts = () => {
             <thead>
               <tr>
                 <th className="checkbox">
-                  <input
+                  <FormInput
                     type="checkbox"
                     className="input-checkbox"
                     onChange={handleSelectAllCheckbox}
@@ -165,7 +166,7 @@ const Receipts = () => {
                 return (
                   <tr key={key}>
                     <td className="checkbox">
-                      <input
+                      <FormInput
                         type="checkbox"
                         className="input-checkbox"
                         onChange={handleSelectCheckbox}
