@@ -1,44 +1,38 @@
 import React, { Fragment } from "react";
 
-import "./form-input.styles.scss";
+import customStyle from "./form-input.module.css";
 
-const FormInput = ({
-  myType = "input",
-  label = null,
-  options = null,
-  ...otherprops
-}) => {
-  switch (myType) {
-    case "input":
-      return (
-        <Fragment>
-          <label className="label">{label}</label>
-          <input {...otherprops} />
-        </Fragment>
-      );
-
-    case "select":
-      return (
-        <Fragment>
-          <label className="label">{label}</label>
-          <select {...otherprops}>
-            {options.map(({ id, value, ...otherpropsoption }) => {
-              return (
-                <option key={id} value={value} {...otherpropsoption}>
-                  {value}
-                </option>
-              );
-            })}
-          </select>
-        </Fragment>
-      );
-
-    case "checkbox":
-      return <input {...otherprops} />;
-
-    default:
-      return null;
-  }
+export const InputDefault = ({ label, ...otherprops }) => {
+  return (
+    <Fragment>
+      <label className={customStyle.label}>{label}</label>
+      <input {...otherprops} className={customStyle} />
+    </Fragment>
+  );
 };
 
-export default FormInput;
+export const InputSelect = ({ label, options, ...otherprops }) => {
+  return (
+    <Fragment>
+      <label className={customStyle.label}>{label}</label>
+      <select {...otherprops} className={customStyle}>
+        {options.map(({ id, value, ...otherpropsoption }) => {
+          return (
+            <option
+              key={id}
+              value={value}
+              {...otherpropsoption}
+              className={customStyle}
+            >
+              {value}
+            </option>
+          );
+        })}
+      </select>
+    </Fragment>
+  );
+};
+
+export const InputCheckbox = ({ ...otherprops }) => {
+  return <input {...otherprops} className={customStyle} />;
+};

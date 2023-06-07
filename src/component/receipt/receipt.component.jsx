@@ -3,19 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { selectRecipes } from "../../store/recipes/recipes.selector";
-import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
-
+import { InputCheckbox } from "../form-input/form-input.component";
 import {
-  REQUEST_TYPES,
-  requestDataConstructor,
-} from "../../server/requests/request.server";
+  ButtonDeleteVerifyNo,
+  ButtonDeleteVerifyYes,
+  ButtonProductDelete,
+  ButtonSelectedProductDelete,
+} from "../button/button.component";
+
+import { requestDelete } from "../../server/requests/request.server";
 
 // // // STYLES // // //
 
 import "./receipt.styles.scss";
 
-import deleteIconPath from "../../assets/delete-icon.svg";
 import editIconPath from "../../assets/edit-icon.svg";
 import { setRecipes } from "../../store/recipes/recipes.actions";
 
@@ -32,7 +33,7 @@ const Receipts = () => {
   const handleDelete = (event) => {
     const id = Number(event.target.id);
 
-    requestDataConstructor(REQUEST_TYPES.DELETE, id);
+    requestDelete(id);
   };
 
   const handleSelectCheckbox = (event) => {
@@ -75,7 +76,7 @@ const Receipts = () => {
   const handleDeleteSelected = () => {
     recipes.map((recipe) => {
       if (recipe.selected) {
-        requestDataConstructor(REQUEST_TYPES.DELETE, recipe.id);
+        requestDelete(recipe.id);
       }
     });
   };
@@ -94,20 +95,15 @@ const Receipts = () => {
               Are you sure you want to delete this recipe?
             </p>
             <div>
-              <Button
+              <ButtonDeleteVerifyYes
                 type="button"
                 onClick={handleDeleteSelected}
-                className="delete-verify yes"
               >
                 Yes
-              </Button>
-              <Button
-                type="button"
-                onClick={handleVerifyDelete}
-                className="delete-verify no"
-              >
+              </ButtonDeleteVerifyYes>
+              <ButtonDeleteVerifyNo type="button" onClick={handleVerifyDelete}>
                 No
-              </Button>
+              </ButtonDeleteVerifyNo>
             </div>
           </div>
         </div>
@@ -115,13 +111,13 @@ const Receipts = () => {
       <div className="receipt-container">
         <h1>Receipts</h1>
         <div className="receipt-functions">
-          <Button
+          <ButtonSelectedProductDelete
             className="function-button"
             onClick={handleVerifyDelete}
             disabled={recipes.every((recipe) => recipe.selected === false)}
           >
             Delete selected
-          </Button>
+          </ButtonSelectedProductDelete>
         </div>
         <div className="receipt-body">
           <h2>Recipes</h2>
@@ -130,9 +126,8 @@ const Receipts = () => {
             <thead>
               <tr>
                 <th className="checkbox">
-                  <FormInput
+                  <InputCheckbox
                     type="checkbox"
-                    className="input-checkbox"
                     onChange={handleSelectAllCheckbox}
                     checked={selectAll}
                   />
@@ -166,9 +161,8 @@ const Receipts = () => {
                 return (
                   <tr key={key}>
                     <td className="checkbox">
-                      <FormInput
+                      <InputCheckbox
                         type="checkbox"
-                        className="input-checkbox"
                         onChange={handleSelectCheckbox}
                         id={id}
                         checked={selected}
@@ -203,17 +197,7 @@ const Receipts = () => {
                           id={id}
                         />
                       </Link>
-                      <Button
-                        className="table-function-button delete"
-                        onClick={handleDelete}
-                        id={id}
-                      >
-                        <img
-                          src={deleteIconPath}
-                          className="function-image"
-                          id={id}
-                        />
-                      </Button>
+                      <ButtonProductDelete onClick={handleDelete} id={id} />
                     </td>
                   </tr>
                 );

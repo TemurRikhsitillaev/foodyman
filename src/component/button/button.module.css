@@ -1,4 +1,4 @@
-.current-button {
+.currentButton {
   width: 50px;
   height: 50px;
   background-color: #f5f5f5;
@@ -10,21 +10,28 @@
   color: #000000;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-
-  &:hover {
-    background-color: #e0e0e0;
-  }
-  &:disabled {
-    background: #a70024;
-    color: #ffffff;
-  }
 }
-.current-button-active {
-  background: #003aa7;
+
+.currentButton:hover {
+  background-color: #e0e0e0;
+}
+.currentButton:disabled {
+  background: #a70024;
   color: #ffffff;
-  &:hover {
-    background-color: #003aa7;
-  }
+}
+
+.currentButtonActive {
+  width: 50px;
+  height: 50px;
+  background: #003aa7;
+  border: 1px solid #e0e0e0;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 .button {
@@ -39,7 +46,7 @@
   color: #ffffff;
 }
 
-.add-button {
+.addButton {
   display: block;
   width: 100%;
   height: 40px;
@@ -52,7 +59,7 @@
   cursor: pointer;
 }
 
-.delete-button {
+.deleteButton {
   color: red;
   font-size: 1rem;
   width: 80px;
@@ -63,20 +70,26 @@
   cursor: pointer;
 }
 
-.delete-verify {
+.deleteVerifyYes {
   width: 80px;
   height: 40px;
   margin-left: 10px;
 }
 
-.yes:hover {
+.deleteVerifyNo {
+  width: 80px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.deleteVerifyYes:hover {
   background: #ff0000;
 }
-.no:hover {
+.deleteVerifyNo:hover {
   background: #0a921c;
 }
 
-.function-button {
+.functionButton {
   width: max-content;
   padding: 10px 12px;
   border: 1px solid #001d8648;
@@ -84,21 +97,21 @@
   background: #ffffff;
   font-size: 1em;
   cursor: pointer;
-
-  &:hover {
-    background: #860900;
-    color: #ffffff;
-    transition: ease-in-out 0.2s;
-  }
-
-  &:disabled {
-    background: #ffffff;
-    color: lightgray;
-    cursor: not-allowed;
-  }
 }
 
-.table-function-button {
+.functionButton:hover {
+  background: #860900;
+  color: #ffffff;
+  transition: ease-in-out 0.2s;
+}
+
+.functionButton:disabled {
+  background: #ffffff;
+  color: lightgray;
+  cursor: not-allowed;
+}
+
+.tableFunctionButtonDelete {
   width: 50px;
   height: 50px;
 
@@ -113,20 +126,20 @@
 
   cursor: pointer;
   overflow: hidden;
+}
 
-  .function-image {
-    width: 22px;
-    height: 22px;
-  }
+.tableFunctionButtonDelete:hover {
+  background: #ff0000;
+  color: #ffffff;
+}
+
+img {
+  width: 22px;
+  height: 22px;
 }
 
 .edit:hover {
   background: #0037ff;
-  color: #ffffff;
-}
-
-.delete:hover {
-  background: #ff0000;
   color: #ffffff;
 }
 

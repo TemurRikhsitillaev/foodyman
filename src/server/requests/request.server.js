@@ -8,13 +8,6 @@ const requestURLs = {
   deleteURL: "receipts/delete?ids[0]=",
 };
 
-export const REQUEST_TYPES = {
-  GET_PAGINATE: "GET_PAGINATE",
-  GET_SHOW: "GET_SHOW",
-  DELETE: "DELETE",
-  UPDATE: "UPDATE",
-};
-
 const requestToServer = async (url, fetchObject) => {
   try {
     const response = await fetch(url, {
@@ -28,62 +21,67 @@ const requestToServer = async (url, fetchObject) => {
   }
 };
 
-export const requestDataConstructor = async (type, id = null, body = {}) => {
-  let url = "",
-    fetchObject = {};
+export const requestGetPaginate = () => {
+  const url = new URL(
+    requestURLs.serverURL + requestURLs.recipesURL
+  ).toString();
 
-  switch (type) {
-    case REQUEST_TYPES.GET_PAGINATE:
-      url = `${requestURLs.serverURL}${requestURLs.recipesURL}`;
+  const fetchObject = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-      fetchObject = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  return requestToServer(url, fetchObject);
+};
 
-      return requestToServer(url, fetchObject);
+export const requestGetShow = (id) => {
+  const url = new URL(
+    requestURLs.serverURL +
+      requestURLs.showURL.firstHalf +
+      id +
+      requestURLs.showURL.secondHalf
+  ).toString();
 
-    case REQUEST_TYPES.GET_SHOW:
-      url = `${requestURLs.serverURL}${requestURLs.showURL.firstHalf}${id}${requestURLs.showURL.secondHalf}`;
+  const fetchObject = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-      fetchObject = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  return requestToServer(url, fetchObject);
+};
 
-      return requestToServer(url, fetchObject);
+export const requestUpdate = (id, body) => {
+  const url = new URL(
+    requestURLs.serverURL + requestURLs.updateURL + id
+  ).toString();
 
-    case REQUEST_TYPES.UPDATE:
-      url = `${requestURLs.serverURL}${requestURLs.updateURL}${id}`;
+  const fetchObject = {
+    method: "PUT",
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
 
-      fetchObject = {
-        method: "PUT",
-        body: JSON.stringify(body),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      };
+  return requestToServer(url, fetchObject);
+};
 
-      return requestToServer(url, fetchObject);
+export const requestDelete = (id) => {
+  const url = new URL(
+    requestURLs.serverURL + requestURLs.deleteURL + id
+  ).toString();
 
-    case REQUEST_TYPES.DELETE:
-      url = `${requestURLs.serverURL}${requestURLs.deleteURL}${id}`;
+  const fetchObject = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-      fetchObject = {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      return requestToServer(url, fetchObject);
-
-    default:
-      return;
-  }
+  return requestToServer(url, fetchObject);
 };

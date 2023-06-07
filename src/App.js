@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setRecipes, setFoods } from "./store/recipes/recipes.actions";
-import { REQUEST_TYPES } from "./server/requests/request.server";
-import { requestDataConstructor } from "./server/requests/request.server";
+import { requestGetPaginate } from "./server/requests/request.server";
 
 import Receipts from "./component/receipt/receipt.component";
 import Update from "./component/update/update.component";
@@ -13,7 +12,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchDate = async () => {
-      const jsonData = await requestDataConstructor(REQUEST_TYPES.GET_PAGINATE);
+      const jsonData = await requestGetPaginate();
 
       const permanent = jsonData.data
         .map((recipe, order) => {
@@ -55,14 +54,8 @@ const App = () => {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<Receipts />}
-      />
-      <Route
-        path="/update/:id"
-        element={<Update />}
-      />
+      <Route path="/" element={<Receipts />} />
+      <Route path="/update/:id" element={<Update />} />
     </Routes>
   );
 };

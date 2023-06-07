@@ -1,9 +1,61 @@
 import React from "react";
 
-import "./button.styles.scss";
+import customStyle from "./button.module.css";
+import deleteIconPath from "../../assets/delete-icon.svg";
 
-const Button = ({ ...otherProps }) => {
-  return <button {...otherProps}></button>;
+export const ButtonUpdateNavTop = ({ currentFormField, ...otherProps }) => {
+  return (
+    <button
+      {...otherProps}
+      className={
+        currentFormField
+          ? customStyle.currentButtonActive
+          : customStyle.currentButton
+      }
+    ></button>
+  );
 };
 
-export default Button;
+export const ButtonUpdateNavBottom = ({ currentFormField, ...otherProps }) => {
+  return (
+    <button
+      {...otherProps}
+      className={
+        currentFormField ? customStyle.button : customStyle.displayNone
+      }
+    ></button>
+  );
+};
+
+export const ButtonAdd = ({ ...otherProps }) => {
+  return <button {...otherProps} className={customStyle.addButton}></button>;
+};
+
+export const ButtonDelete = ({ ...otherProps }) => {
+  return <button {...otherProps} className={customStyle.deleteButton}></button>;
+};
+
+export const ButtonSelectedProductDelete = ({ ...otherProps }) => {
+  return (
+    <button {...otherProps} className={customStyle.functionButton}></button>
+  );
+};
+
+export const ButtonProductDelete = ({ ...otherProps }) => {
+  return (
+    <button {...otherProps} className={customStyle.deleteButton}>
+      <img src={deleteIconPath} alt="delete" className={customStyle} />
+    </button>
+  );
+};
+
+export const ButtonDeleteVerifyYes = ({ ...otherProps }) => {
+  return (
+    <button {...otherProps} className={customStyle.deleteVerifyYes}></button>
+  );
+};
+export const ButtonDeleteVerifyNo = ({ ...otherProps }) => {
+  return (
+    <button {...otherProps} className={customStyle.deleteVerifyNo}></button>
+  );
+};

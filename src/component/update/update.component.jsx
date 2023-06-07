@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { defaultFormFields } from "../../utils/default-values/update-values.default-values";
-import { REQUEST_TYPES } from "../../server/requests/request.server";
-import { requestDataConstructor } from "../../server/requests/request.server";
-import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import {
+  requestUpdate,
+  requestGetShow,
+} from "../../server/requests/request.server";
+import { InputDefault, InputSelect } from "../form-input/form-input.component";
+import {
+  ButtonUpdateNavTop,
+  ButtonUpdateNavBottom,
+  ButtonAdd,
+  ButtonDelete,
+} from "../button/button.component";
 
 import "./update.styles.scss";
 
@@ -27,7 +34,7 @@ const Update = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const jsonData = await requestDataConstructor(REQUEST_TYPES.GET_SHOW, id);
+      const jsonData = await requestGetShow(id);
       setShow(jsonData);
     };
 
@@ -138,80 +145,61 @@ const Update = () => {
       nutrition: [...nutritions],
     };
 
-    requestDataConstructor(REQUEST_TYPES.UPDATE, id, updatedData);
+    requestUpdate(id, updatedData);
   };
 
   return (
     <div className="update">
       <div className="header">
         <div className="current-container">
-          <Button
+          <ButtonUpdateNavTop
+            currentFormField={currentFormField === 1}
             type="button"
             onClick={() => setCurrentFormField(1)}
-            className={
-              currentFormField === 1
-                ? "current-button current-button-active"
-                : "current-button"
-            }
           >
             1
-          </Button>
+          </ButtonUpdateNavTop>
           <span>Recipe</span>
         </div>
         <div className="current-container">
-          <Button
+          <ButtonUpdateNavTop
             type="button"
             onClick={() => setCurrentFormField(2)}
-            className={
-              currentFormField === 2
-                ? "current-button current-button-active"
-                : "current-button"
-            }
+            currentFormField={currentFormField === 2}
           >
             2
-          </Button>
+          </ButtonUpdateNavTop>
+
           <span>Instructions</span>
         </div>
         <div className="current-container">
-          <Button
+          <ButtonUpdateNavTop
             type="button"
             onClick={() => setCurrentFormField(3)}
-            className={
-              currentFormField === 3
-                ? "current-button current-button-active"
-                : "current-button"
-            }
+            currentFormField={currentFormField === 3}
           >
             3
-          </Button>
+          </ButtonUpdateNavTop>
           <span>Ingredients</span>
         </div>
         <div className="current-container">
-          <Button
+          <ButtonUpdateNavTop
             type="button"
             onClick={() => setCurrentFormField(4)}
-            className={
-              currentFormField === 4
-                ? "current-button current-button-active"
-                : "current-button"
-            }
+            currentFormField={currentFormField === 4}
           >
             4
-          </Button>
+          </ButtonUpdateNavTop>
           <span>Stocks</span>
         </div>
         <div className="current-container">
-          <Button
+          <ButtonUpdateNavTop
             type="button"
             onClick={() => setCurrentFormField(5)}
-            className={
-              currentFormField === 5
-                ? "current-button current-button-active"
-                : "current-button"
-            }
+            currentFormField={currentFormField === 5}
           >
             5
-          </Button>
+          </ButtonUpdateNavTop>
           <span>Nutritions</span>
         </div>
       </div>
@@ -221,19 +209,18 @@ const Update = () => {
             className={currentFormField === 1 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Name"
                 type="text"
                 required
                 onChange={handleChange}
                 name="name"
                 value={formFields.name}
-                className="input"
                 placeholder="Name"
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputSelect
                 myType="select"
                 label="Shop/Restaurant"
                 options={[
@@ -252,7 +239,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputSelect
                 myType="select"
                 label="Category"
                 options={[
@@ -271,7 +258,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Description"
                 type="text"
                 required
@@ -282,7 +269,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Calories"
                 type="number"
                 required
@@ -293,7 +280,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Active time"
                 type="text"
                 required
@@ -304,7 +291,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Total time"
                 type="text"
                 required
@@ -315,7 +302,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputSelect
                 myType="select"
                 label="Discount type"
                 options={[
@@ -334,7 +321,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Discount price"
                 type="number"
                 required
@@ -345,7 +332,7 @@ const Update = () => {
               />
             </div>
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Image"
                 type="file"
                 required
@@ -359,7 +346,7 @@ const Update = () => {
             className={currentFormField === 2 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Instructions"
                 type="text"
                 required
@@ -375,7 +362,7 @@ const Update = () => {
             className={currentFormField === 3 ? "current-form" : "displayNone"}
           >
             <div className="field-container">
-              <FormInput
+              <InputDefault
                 label="Ingredients"
                 type="text"
                 onChange={handleChange}
@@ -394,7 +381,7 @@ const Update = () => {
               return (
                 <div className="stocks" key={index}>
                   <div className="field-container">
-                    <FormInput
+                    <InputSelect
                       myType="select"
                       label="Stocks"
                       options={[
@@ -419,7 +406,7 @@ const Update = () => {
                     />
                   </div>
                   <div className="field-container">
-                    <FormInput
+                    <InputDefault
                       label="Min quantity"
                       type="number"
                       onChange={(event) => handleChangeStock(event, index)}
@@ -430,24 +417,19 @@ const Update = () => {
                     />
                   </div>
                   {stockList.length !== 1 && (
-                    <Button
+                    <ButtonDelete
                       type="button"
-                      className="delete-button"
                       onClick={() => handleStockRemove(index)}
                     >
                       Delete
-                    </Button>
+                    </ButtonDelete>
                   )}
                 </div>
               );
             })}
-            <Button
-              type="button"
-              className="add-button"
-              onClick={handleStockAdd}
-            >
+            <ButtonAdd type="button" onClick={handleStockAdd}>
               Add Stocks
-            </Button>
+            </ButtonAdd>
           </div>
           <div
             className={currentFormField === 5 ? "current-form" : "displayNone"}
@@ -456,7 +438,7 @@ const Update = () => {
               return (
                 <div className="nutritions" key={index}>
                   <div className="field-container">
-                    <FormInput
+                    <InputDefault
                       label="Name"
                       type="text"
                       required
@@ -467,7 +449,7 @@ const Update = () => {
                     />
                   </div>
                   <div className="field-container">
-                    <FormInput
+                    <InputDefault
                       label="Weight"
                       type="text"
                       required
@@ -478,7 +460,7 @@ const Update = () => {
                     />
                   </div>
                   <div className="field-container">
-                    <FormInput
+                    <InputDefault
                       label="Percentage"
                       type="number"
                       required
@@ -489,46 +471,43 @@ const Update = () => {
                     />
                   </div>
                   {nutritionList.length !== 1 && (
-                    <Button
+                    <ButtonDelete
                       type="button"
-                      className="delete-button"
                       onClick={() => handleNutritionRemove(index)}
                     >
                       Delete
-                    </Button>
+                    </ButtonDelete>
                   )}
                 </div>
               );
             })}
-            <Button
-              type="button"
-              className="add-button"
-              onClick={handleNutritionAdd}
-            >
+            <ButtonAdd type="button" onClick={handleNutritionAdd}>
               Add Nutrition
-            </Button>
+            </ButtonAdd>
           </div>
 
-          <Button
-            className={currentFormField > 1 ? "button" : "displayNone"}
+          <ButtonUpdateNavBottom
+            currentFormField={currentFormField > 1}
             type="button"
             onClick={handlePrevFormField}
           >
             Prev
-          </Button>
-          <Button
-            className={currentFormField < 5 ? "button" : "displayNone"}
+          </ButtonUpdateNavBottom>
+
+          <ButtonUpdateNavBottom
+            currentFormField={currentFormField < 5}
             type="button"
             onClick={handleNextFormField}
           >
             Next
-          </Button>
-          <Button
-            className={currentFormField === 5 ? "button" : "displayNone"}
+          </ButtonUpdateNavBottom>
+
+          <ButtonUpdateNavBottom
+            currentFormField={currentFormField === 5}
             type="submit"
           >
             Submit
-          </Button>
+          </ButtonUpdateNavBottom>
           {/* <button type="button" onClick={submitHandler}>
             submit test
           </button> */}
