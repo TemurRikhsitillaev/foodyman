@@ -133,14 +133,10 @@
   color: #ffffff;
 }
 
-img {
+.image {
   width: 22px;
   height: 22px;
-}
-
-.edit:hover {
-  background: #0037ff;
-  color: #ffffff;
+  border-radius: 0;
 }
 
 .displayNone {

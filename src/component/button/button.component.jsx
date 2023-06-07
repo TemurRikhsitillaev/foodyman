@@ -43,8 +43,8 @@ export const ButtonSelectedProductDelete = ({ ...otherProps }) => {
 
 export const ButtonProductDelete = ({ ...otherProps }) => {
   return (
-    <button {...otherProps} className={customStyle.deleteButton}>
-      <img src={deleteIconPath} alt="delete" className={customStyle} />
+    <button {...otherProps} className={customStyle.tableFunctionButtonDelete}>
+      <img src={deleteIconPath} alt="delete" className={customStyle.image} />
     </button>
   );
 };

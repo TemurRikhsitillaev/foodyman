@@ -20,6 +20,21 @@ import "./receipt.styles.scss";
 import editIconPath from "../../assets/edit-icon.svg";
 import { setRecipes } from "../../store/recipes/recipes.actions";
 
+const testRecipes = [
+  {
+    id: 1,
+    order: 0,
+    title: "Test Recipe 1",
+    categoryTitle: "Test Category 1",
+    productImage: "dfg",
+    discountPrice: 10,
+    discountType: "fix",
+    shopImage: "dfg",
+    shopTitle: "Test Shop 1",
+    selected: false,
+  },
+];
+
 const Receipts = () => {
   const dispatch = useDispatch();
 
